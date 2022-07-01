@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Социальная сеть для просмотра фотографий">
+	<meta name="keywords" content="Социальная сеть, место, фотография, картинки">
+	<meta name="author" content="Николай">
+	<link rel="stylesheet" href="./pages/index.css">
+	<title>Mesto</title>
+</head>
+
+<body class="body">
+	<div class="page">
+		<header class="header page__header">
+			<img src="./images/header-logo.svg" alt="Логотип Место Россия" class="header__logo">
+			<div class="header__line"></div>
+		</header>
+		<main class="main">
+			<section class="profile page__profile">
+				<div class="profile__wrapper">
+					<img src="./images/profile/profile-avatar.jpg" alt="Фото пользователя" class="profile__avatar">
+					<div class="profile__profile-info">
+						<div class="profile__profile-top">
+							<h1 class="profile__title">Жак-Ив Кусто</h1>
+							<button class="profile__edit-button"></button>
+						</div>
+						<p class="profile__subtitle">Исследователь океана</p>
+					</div>
+				</div>
+				<button class="profile__add-button"></button>
+			</section>
+			<section class="elements page__elements">
+				<article class="element">
+					<img src="./images/element/element-greece.jpg" alt="Вид на морской пляж" class="element__image">
+					<div class="element__wrapper">
+						<h2 class="element__title">Греция</h2>
+						<button class="element__button-like"></button>
+					</div>
+				</article>
+				<article class="element">
+					<img src="./images/element/element-hongkong.jpg" alt="Вид на улицу ночного Гонконга" class="element__image">
+					<div class="element__wrapper">
+						<h2 class="element__title">Гонконг</h2>
+						<button class="element__button-like"></button>
+					</div>
+				</article>
+				<article class="element">
+					<img src="./images/element/element-indonesia.jpg" alt="Вид на гору в Индонезии" class="element__image">
+					<div class="element__wrapper">
+						<h2 class="element__title">Индонезия</h2>
+						<button class="element__button-like"></button>
+					</div>
+				</article>
+				<article class="element">
+					<img src="./images/element/element-korea.jpg" alt="Вид не девушек в традициональных костюмах Ханбок"
+						class="element__image">
+					<div class="element__wrapper">
+						<h2 class="element__title">Южная Корея</h2>
+						<button class="element__button-like"></button>
+					</div>
+				</article>
+				<article class="element">
+					<img src="./images/element/element-usa.jpg" alt="Вид на каньон в США" class="element__image">
+					<div class="element__wrapper">
+						<h2 class="element__title">Соединенные Штаты Америки</h2>
+						<button class="element__button-like"></button>
+					</div>
+				</article>
+				<article class="element">
+					<img src="./images/element/element-uae.jpg" alt="Вид на дорогу в пустыне" class="element__image">
+					<div class="element__wrapper">
+						<h2 class="element__title">Объединённые Арабские Эмираты</h2>
+						<button class="element__button-like"></button>
+					</div>
+				</article>
+			</section>
+			<section class="popup">
+				<div class="popup__contant">
+					<button class="popup__close-button"></button>
+					<form action="" class="popup__container">
+						<fieldset class="popup__profile-info">
+							<h2 class="popup__title">Редактировать профиль</h2>
+							<input type="text" name="name" placeholder="Как вас зовут?" required class="popup__item popup__item_name">
+							<input type="text" name="description" placeholder="Ваш род деятельности?" required
+								class="popup__item popup__item_description">
+						</fieldset>
+						<button type="submit" class="popup__save-button">Сохранить</button>
+					</form>
+				</div>
+			</section>
+		</main>
+		<footer class="footer page__footer">
+			<h2 class="footer__author">&copy;&nbsp;2022 Николай</h2>
+		</footer>
+	</div>
+	<script src="./scripts/index.js"></script>
+</body>
+
+</html>

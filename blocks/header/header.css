@@ -1,0 +1,16 @@
+.header {
+	padding: 45px 0 0 0;
+	box-sizing: border-box;
+}
+
+@media screen and (max-width: 920px) {
+	.header {
+		padding: 35px 0 0;
+	}
+}
+
+@media screen and (max-width: 638px) {
+	.header {
+		padding: 28px 0 0;
+	}
+}
