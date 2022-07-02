@@ -4,8 +4,8 @@
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: 100%;
-	width: 22px;
-	height: 19px;
+	min-width: 22px;
+	min-height: 19px;
 	border: none;
 	background-color: white;
 	transition: opacity 0.2s linear;

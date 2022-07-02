@@ -3,6 +3,7 @@
 	padding: 0;
 	width: 358px;
 	height: 27px;
+	outline: none;
 	border: 0;
 	font-weight: 400;
 	font-size: 14px;
@@ -12,10 +13,6 @@
 
 .popup__item:last-of-type {
 	margin: 0;
-}
-
-.popup__item:focus {
-	outline: none;
 }
 
 @media screen and (max-width: 618px) {

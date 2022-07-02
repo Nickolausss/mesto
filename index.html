@@ -8,14 +8,13 @@
 	<meta name="keywords" content="Социальная сеть, место, фотография, картинки">
 	<meta name="author" content="Николай">
 	<link rel="stylesheet" href="./pages/index.css">
-	<title>Mesto</title>
+	<title>Место</title>
 </head>
 
 <body class="body">
 	<div class="page">
 		<header class="header page__header">
 			<img src="./images/header-logo.svg" alt="Логотип Место Россия" class="header__logo">
-			<div class="header__line"></div>
 		</header>
 		<main class="main">
 			<section class="profile page__profile">
@@ -24,19 +23,19 @@
 					<div class="profile__profile-info">
 						<div class="profile__profile-top">
 							<h1 class="profile__title">Жак-Ив Кусто</h1>
-							<button class="profile__edit-button"></button>
+							<button type="button" aria-label="Редактировать профиль" class="profile__edit-button"></button>
 						</div>
 						<p class="profile__subtitle">Исследователь океана</p>
 					</div>
 				</div>
-				<button class="profile__add-button"></button>
+				<button type="button" aria-label="Добавить" class="profile__add-button"></button>
 			</section>
 			<section class="elements page__elements">
 				<article class="element">
 					<img src="./images/element/element-greece.jpg" alt="Вид на морской пляж" class="element__image">
 					<div class="element__wrapper">
 						<h2 class="element__title">Греция</h2>
-						<button class="element__button-like"></button>
+						<button type="button" class="element__button-like"></button>
 					</div>
 				</article>
 				<article class="element">
@@ -76,20 +75,19 @@
 					</div>
 				</article>
 			</section>
-			<section class="popup">
+			<div class="popup">
 				<div class="popup__contant">
-					<button class="popup__close-button"></button>
-					<form class="popup__container">
-						<fieldset class="popup__profile-info">
-							<h2 class="popup__title">Редактировать профиль</h2>
-							<input type="text" name="name" placeholder="Как вас зовут?" required class="popup__item popup__item_name">
-							<input type="text" name="description" placeholder="Ваш род деятельности?" required
-								class="popup__item popup__item_description">
-						</fieldset>
+					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+					<form name="popup-edit-form" class="popup__container">
+						<h2 class="popup__title">Редактировать профиль</h2>
+						<input type="text" name="name" placeholder="Как вас зовут?" required
+							class="popup__item popup__item_input_name">
+						<input type="text" name="description" placeholder="Ваш род деятельности?" required
+							class="popup__item popup__item_input_description">
 						<button type="submit" class="popup__save-button">Сохранить</button>
 					</form>
 				</div>
-			</section>
+			</div>
 		</main>
 		<footer class="footer page__footer">
 			<h2 class="footer__author">&copy;&nbsp;2022 Николай</h2>

@@ -1,6 +1,7 @@
 .popup__contant {
 	margin: 195px auto 0;
 	width: 430px;
+	position: relative;
 }
 
 @media screen and (max-width: 618px) {
