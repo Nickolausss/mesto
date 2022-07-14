@@ -31,61 +31,36 @@
 				<button type="button" aria-label="Добавить" class="profile__add-button"></button>
 			</section>
 			<section class="elements page__elements">
-				<article class="element">
-					<img src="./images/element/element-greece.jpg" alt="Вид на морской пляж" class="element__image">
-					<div class="element__wrapper">
-						<h2 class="element__title">Греция</h2>
-						<button type="button" class="element__button-like"></button>
-					</div>
-				</article>
-				<article class="element">
-					<img src="./images/element/element-hongkong.jpg" alt="Вид на улицу ночного Гонконга" class="element__image">
-					<div class="element__wrapper">
-						<h2 class="element__title">Гонконг</h2>
-						<button class="element__button-like"></button>
-					</div>
-				</article>
-				<article class="element">
-					<img src="./images/element/element-indonesia.jpg" alt="Вид на гору в Индонезии" class="element__image">
-					<div class="element__wrapper">
-						<h2 class="element__title">Индонезия</h2>
-						<button class="element__button-like"></button>
-					</div>
-				</article>
-				<article class="element">
-					<img src="./images/element/element-korea.jpg" alt="Вид не девушек в традициональных костюмах Ханбок"
-						class="element__image">
-					<div class="element__wrapper">
-						<h2 class="element__title">Южная Корея</h2>
-						<button class="element__button-like"></button>
-					</div>
-				</article>
-				<article class="element">
-					<img src="./images/element/element-usa.jpg" alt="Вид на каньон в США" class="element__image">
-					<div class="element__wrapper">
-						<h2 class="element__title">Соединенные Штаты Америки</h2>
-						<button class="element__button-like"></button>
-					</div>
-				</article>
-				<article class="element">
-					<img src="./images/element/element-uae.jpg" alt="Вид на дорогу в пустыне" class="element__image">
-					<div class="element__wrapper">
-						<h2 class="element__title">Объединённые Арабские Эмираты</h2>
-						<button class="element__button-like"></button>
-					</div>
-				</article>
 			</section>
 			<div class="popup">
 				<div class="popup__contant">
 					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
 					<form name="popup-edit-form" class="popup__container">
 						<h2 class="popup__title">Редактировать профиль</h2>
-						<input type="text" name="name" placeholder="Как вас зовут?" required
-							class="popup__item popup__item_input_name">
-						<input type="text" name="description" placeholder="Ваш род деятельности?" required
+						<input type="text" name="name" placeholder="Ваше имя" required class="popup__item popup__item_input_name">
+						<input type="text" name="description" placeholder="Род деятельности" required
 							class="popup__item popup__item_input_description">
 						<button type="submit" class="popup__save-button">Сохранить</button>
 					</form>
+				</div>
+			</div>
+			<div class="popup popup_add-form">
+				<div class="popup__contant">
+					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+					<form name="popup-add-form" class="popup__container">
+						<h2 class="popup__title">Новое место</h2>
+						<input type="text" name="title" placeholder="Название" required class="popup__item popup__item_input_title">
+						<input type="text" name="place" placeholder="Ссылка на картинку" required
+							class="popup__item popup__item_input_place">
+						<button type="submit" class="popup__save-button">Сохранить</button>
+					</form>
+				</div>
+			</div>
+			<div class="popup popup_image">
+				<div class="popup__image-content">
+					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+					<img class="popup__image">
+					<p class="popup__image-subtitle"></p>
 				</div>
 			</div>
 		</main>
@@ -93,6 +68,16 @@
 			<p class="footer__author">&copy;&nbsp;2022 Николай</p>
 		</footer>
 	</div>
+	<template class="template-cards">
+		<article class="element">
+			<button type="button" class="element__button-trash"></button>
+			<img class="element__image">
+			<div class="element__wrapper">
+				<h2 class="element__title"></h2>
+				<button type="button" class="element__button-like"></button>
+			</div>
+		</article>
+	</template>
 	<script src="./scripts/index.js"></script>
 </body>
 
