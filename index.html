@@ -32,7 +32,7 @@
 			</section>
 			<section class="elements page__elements">
 			</section>
-			<div class="popup">
+			<div class="popup popup_edit-form">
 				<div class="popup__contant">
 					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
 					<form name="popup-edit-form" class="popup__container">
@@ -50,7 +50,7 @@
 					<form name="popup-add-form" class="popup__container">
 						<h2 class="popup__title">Новое место</h2>
 						<input type="text" name="title" placeholder="Название" required class="popup__item popup__item_input_title">
-						<input type="text" name="place" placeholder="Ссылка на картинку" required
+						<input type="url" name="place" placeholder="Ссылка на картинку" required
 							class="popup__item popup__item_input_place">
 						<button type="submit" class="popup__save-button">Сохранить</button>
 					</form>
@@ -68,7 +68,7 @@
 			<p class="footer__author">&copy;&nbsp;2022 Николай</p>
 		</footer>
 	</div>
-	<template class="template-cards">
+	<template id="template-card">
 		<article class="element">
 			<button type="button" class="element__button-trash"></button>
 			<img class="element__image">

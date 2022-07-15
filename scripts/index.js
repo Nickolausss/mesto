@@ -1,9 +1,9 @@
 // popup
-const popupElement = document.querySelector('.popup');
-const popupContainer = popupElement.querySelector('.popup__container');
-const popupCloseButtonElement = popupElement.querySelector('.popup__close-button');
-const nameInputElement = popupElement.querySelector('.popup__item_input_name');
-const descriptionInputElement = popupElement.querySelector('.popup__item_input_description');
+const popupEditProfile = document.querySelector('.popup_edit-form');
+const popupContainer = popupEditProfile.querySelector('.popup__container');
+const popupCloseButtonElement = popupEditProfile.querySelector('.popup__close-button');
+const nameInputElement = popupEditProfile.querySelector('.popup__item_input_name');
+const descriptionInputElement = popupEditProfile.querySelector('.popup__item_input_description');
 // profile
 const editButtonToOpenPopupElement = document.querySelector('.profile__edit-button');
 const profileTitleElement = document.querySelector('.profile__title');
@@ -22,11 +22,11 @@ const popupImageElement = document.querySelector('.popup_image');
 const popupImageCloseButtonElement = popupImageElement.querySelector('.popup__close-button');
 
 function openPopup() {
-	popupElement.classList.add('popup_opened');
+	popupEditProfile.classList.add('popup_opened');
 	addNameInInput()
 };
 function closePopup() {
-	popupElement.classList.remove('popup_opened');
+	popupEditProfile.classList.remove('popup_opened');
 };
 // const closePopupByClickOnOverlay = function (event) {
 // 	if (event.target !== event.currentTarget) {
@@ -72,7 +72,7 @@ profileAddButton.addEventListener('click', openPopupAddForm);
 popupCloseButtonAddFormElement.addEventListener('click', closePopupAddForm);
 
 function createNewCard(place, title) {
-	const templateCardsElement = document.querySelector('.template-cards').content.querySelector('.element').cloneNode(true);
+	const templateCardsElement = document.querySelector('#template-card').content.querySelector('.element').cloneNode(true);
 
 	templateCardsElement.querySelector('.element__image').src = place;
 	templateCardsElement.querySelector('.element__image').alt = title;
