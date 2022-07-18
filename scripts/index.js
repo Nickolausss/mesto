@@ -24,20 +24,20 @@ const popupImageCloseButtonElement = popupImageElement.querySelector('.popup__cl
 const templateCard = document.querySelector('#template-card').content;
 const templateCardElement = templateCard.querySelector('.element');
 
-function openPopup(item) {
-	item.classList.add('popup_opened');
+function openPopup(popup) {
+	popup.classList.add('popup_opened');
 }
 
-function closePopup(item) {
-	item.classList.remove('popup_opened');
+function closePopup(popup) {
+	popup.classList.remove('popup_opened');
 }
 
-const openEditPopup = editButtonToOpenPopupElement.addEventListener('click', () => {
+editButtonToOpenPopupElement.addEventListener('click', () => {
 	openPopup(popupEditProfile);
 	fillPopupProfileFormFields();
 });
 
-const closeEditPopup = popupCloseButtonElement.addEventListener('click', () => {
+popupCloseButtonElement.addEventListener('click', () => {
 	closePopup(popupEditProfile);
 });
 
@@ -70,23 +70,23 @@ function popupContainerSubmitHandler(evt) {
 
 popupEditContainer.addEventListener('submit', popupContainerSubmitHandler);
 
-const openAddFormPopup = profileAddButtonForAddForm.addEventListener('click', () => {
+profileAddButtonForAddForm.addEventListener('click', () => {
 	openPopup(popupAddFormElement);
 	placeInputElement.value = '';
 	titleInputElement.value = '';
 });
 
-const closeAddFormPopup = popupCloseButtonAddFormElement.addEventListener('click', () => {
+popupCloseButtonAddFormElement.addEventListener('click', () => {
 	closePopup(popupAddFormElement);
 });
 
-function createNewCard(place, title) {
+function createNewCard(card) {
 	const templateCardElementClone = templateCardElement.cloneNode(true);
 	const templateCardImage = templateCardElementClone.querySelector('.element__image');
 
-	templateCardImage.src = place;
-	templateCardImage.alt = title;
-	templateCardElementClone.querySelector('.element__title').textContent = title;
+	templateCardImage.src = card.link;
+	templateCardImage.alt = card.name;
+	templateCardElementClone.querySelector('.element__title').textContent = card.name;
 
 	templateCardElementClone.querySelector('.element__button-like').addEventListener('click',
 		function (event) {
@@ -101,22 +101,23 @@ function createNewCard(place, title) {
 	templateCardImage.addEventListener('click',
 		function () {
 			openPopup(popupImageElement);
-			popupImageElement.querySelector('.popup__image').src = place;
-			popupImageElement.querySelector('.popup__image').alt = title
-			popupImageElement.querySelector('.popup__image-subtitle').textContent = title;
+			popupImageElement.querySelector('.popup__image').src = card.link;
+			popupImageElement.querySelector('.popup__image').alt = card.name;
+			popupImageElement.querySelector('.popup__image-subtitle').textContent = card.name;
 		});
 
-	addNewCard(templateCardElementClone);
+	return templateCardElementClone;
 }
 
-function addNewCard(clone) {
-	elementsSectionElement.prepend(clone);
+function addNewCard(card) {
+	const cardElement = createNewCard(card);
+	elementsSectionElement.prepend(cardElement);
 }
 
-function addEventListeners() {
+function newCard() {
 	popupAddFormContainer.addEventListener('submit', function (event) {
 		event.preventDefault();
-		createNewCard(placeInputElement.value, titleInputElement.value);
+		addNewCard({ link: placeInputElement.value, name: titleInputElement.value });
 		closePopup(popupAddFormElement);
 	})
 }
@@ -131,13 +132,12 @@ function addInitialCards() {
 		{ name: 'Объединённые Арабские Эмираты', link: './images/element/element-uae.jpg' }
 	];
 
-	arrayCard.forEach(card => createNewCard(card.link, card.name));
+	arrayCard.forEach(card => addNewCard(card));
 }
 
-const closeFullScreenImagePopup = popupImageCloseButtonElement.addEventListener('click', () => {
+popupImageCloseButtonElement.addEventListener('click', () => {
 	closePopup(popupImageElement);
 });
 
-addEventListeners();
+newCard();
 addInitialCards();
-
