@@ -1,64 +1,67 @@
-const formPopupEditForm = {
-	form: '.popup__container[name="popup-edit-form"]',
-	button: '.popup__save-button'
-};
-
-const formPopupAddForm = {
-	form: '.popup__container[name="popup-add-form"]',
-	button: '.popup__save-button'
-};
-
 function enableValidation(config) {
-	const form = document.querySelector(config.form);
-	form.addEventListener('submit', handleFormSubmit);
-	form.addEventListener('input', (event) => handleFormInput(event, config));
-
-	setSubmitButtonState(form, config);
+	const formList = Array.from(document.querySelectorAll(config.form));
+	formList.forEach(form => {
+		form.addEventListener('submit', event => {
+			handleFormSubmit(event);
+		});
+		setInputListener(form, config);
+	});
 }
 
 function handleFormSubmit(event) {
 	event.preventDefault();
 }
 
-function handleFormInput(event, config) {
-	const input = event.target;
-	const form = event.currentTarget;
-	const isValid = form.checkValidity();
-
-	if (!isValid) {
-		showInputError(input, form, input.validationMessage);
-	} else {
-		hideInputError(input, form);
-	}
-
+function setInputListener(form, config) {
+	const inputList = Array.from(form.querySelectorAll(config.input));
 	setSubmitButtonState(form, config);
+	inputList.forEach(input => {
+		input.addEventListener('input', event => {
+			handleInputValidity(event, config);
+			setSubmitButtonState(form, config);
+		});
+	});
 }
 
-function showInputError(input, form, errorMassege) {
-	const span = form.querySelector(`.${input.id}-error`);
+function handleInputValidity(event, config) {
+	const input = event.target;
 
-	input.classList.add('popup__item_type_error');
-	span.classList.add('popup__item-error_active');
-	span.textContent = errorMassege;
+	if (!input.validity.valid) {
+		showInputError(input, config, input.validationMessage);
+	} else {
+		hideInputError(input, config);
+	}
 }
 
-function hideInputError(input, form) {
-	const span = form.querySelector(`.${input.id}-error`);
+function showInputError(input, config, errorMassege) {
+	const span = Array.from(document.querySelectorAll(`.${input.id}-error`));
+	span.forEach(span => {
+		span.classList.add(config.spanError);
+		span.textContent = errorMassege;
+	});
 
-	input.classList.remove('popup__item_type_error');
-	span.classList.remove('popup__item-error_active');
-	span.textContent = '';
+	input.classList.add(config.inputError);
+}
+
+function hideInputError(input, config) {
+	const span = Array.from(document.querySelectorAll(`.${input.id}-error`));
+	span.forEach(span => {
+		span.classList.remove(config.spanError);
+		span.textContent = '';
+	});
+
+	input.classList.remove(config.inputError);
 }
 
 function setSubmitButtonState(form, config) {
-	const saveButton = form.querySelector(config.button);
+	const saveButton = form.querySelector(config.bottonSave);
 	const isValid = form.checkValidity();
 
 	if (!isValid) {
-		saveButton.classList.add('popup__save-button_inactive');
+		saveButton.classList.add(config.bottonSaveInactive);
 		saveButton.setAttribute('disabled', true);
 	} else {
-		saveButton.classList.remove('popup__save-button_inactive');
+		saveButton.classList.remove(config.bottonSaveInactive);
 		saveButton.removeAttribute('disabled');
 	}
 }

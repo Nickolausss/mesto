@@ -32,7 +32,7 @@
 			</section>
 			<section class="elements page__elements">
 			</section>
-			<div class="popup popup_edit-form">
+			<div class="popup popup_type_profile-edit">
 				<div class="popup__contant">
 					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
 					<form name="popup-edit-form" class="popup__container" novalidate>
@@ -43,11 +43,11 @@
 						<input id="description-input" type="text" name="description" placeholder="Род деятельности" required
 							class="popup__item popup__item_input_description" minlength="2" maxlength="200">
 						<span class="description-input-error popup__item-error"></span>
-						<button type="submit" class="popup__save-button">Сохранить</button>
+						<button type="submit" class="popup__save-button" disabled>Сохранить</button>
 					</form>
 				</div>
 			</div>
-			<div class="popup popup_add-form">
+			<div class="popup popup_type_add-card">
 				<div class="popup__contant">
 					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
 					<form name="popup-add-form" class="popup__container" novalidate>
@@ -62,7 +62,7 @@
 					</form>
 				</div>
 			</div>
-			<div class="popup popup_image">
+			<div class="popup popup_type_image">
 				<div class="popup__image-content">
 					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
 					<img class="popup__image">
