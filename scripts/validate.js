@@ -11,27 +11,14 @@ function enableValidation(config) {
 	const formList = Array.from(document.querySelectorAll(config.form));
 	formList.forEach(form => {
 		form.addEventListener('submit', event => {
-			handleFormSubmit(event, config);
+			handleFormSubmit(event);
 		});
 		setInputListener(form, config);
 	});
 }
 
-function handleFormSubmit(event, config) {
+function handleFormSubmit(event) {
 	event.preventDefault();
-
-	const form = event.currentTarget;
-
-	const saveButton = form.querySelector(config.bottonSave);
-	const isValid = form.checkValidity();
-
-	if (!isValid) {
-		saveButton.classList.add(config.bottonSaveInactive);
-		saveButton.setAttribute('disabled', true);
-	} else {
-		saveButton.classList.remove(config.bottonSaveInactive);
-		saveButton.removeAttribute('disabled');
-	}
 }
 
 function setInputListener(form, config) {
