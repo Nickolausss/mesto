@@ -1,15 +1,37 @@
+const listValidation = {
+	form: '.popup__container',
+	input: '.popup__item',
+	inputError: 'popup__item_type_error',
+	spanError: 'popup__item-error_active',
+	bottonSave: '.popup__save-button',
+	bottonSaveInactive: 'popup__save-button_inactive'
+};
+
 function enableValidation(config) {
 	const formList = Array.from(document.querySelectorAll(config.form));
 	formList.forEach(form => {
 		form.addEventListener('submit', event => {
-			handleFormSubmit(event);
+			handleFormSubmit(event, config);
 		});
 		setInputListener(form, config);
 	});
 }
 
-function handleFormSubmit(event) {
+function handleFormSubmit(event, config) {
 	event.preventDefault();
+
+	const form = event.currentTarget;
+
+	const saveButton = form.querySelector(config.bottonSave);
+	const isValid = form.checkValidity();
+
+	if (!isValid) {
+		saveButton.classList.add(config.bottonSaveInactive);
+		saveButton.setAttribute('disabled', true);
+	} else {
+		saveButton.classList.remove(config.bottonSaveInactive);
+		saveButton.removeAttribute('disabled');
+	}
 }
 
 function setInputListener(form, config) {
@@ -34,34 +56,43 @@ function handleInputValidity(event, config) {
 }
 
 function showInputError(input, config, errorMassege) {
-	const span = Array.from(document.querySelectorAll(`.${input.id}-error`));
-	span.forEach(span => {
-		span.classList.add(config.spanError);
-		span.textContent = errorMassege;
-	});
+	const span = document.querySelector(`.${input.id}-error`);
 
 	input.classList.add(config.inputError);
+	span.classList.add(config.spanError);
+	span.textContent = errorMassege;
 }
 
 function hideInputError(input, config) {
-	const span = Array.from(document.querySelectorAll(`.${input.id}-error`));
-	span.forEach(span => {
-		span.classList.remove(config.spanError);
-		span.textContent = '';
-	});
+	const span = document.querySelector(`.${input.id}-error`);
 
 	input.classList.remove(config.inputError);
+	span.classList.remove(config.spanError);
+	span.textContent = '';
 }
 
 function setSubmitButtonState(form, config) {
-	const saveButton = form.querySelector(config.bottonSave);
 	const isValid = form.checkValidity();
 
 	if (!isValid) {
-		saveButton.classList.add(config.bottonSaveInactive);
-		saveButton.setAttribute('disabled', true);
+		disableSubmitButton(form, config)
 	} else {
-		saveButton.classList.remove(config.bottonSaveInactive);
-		saveButton.removeAttribute('disabled');
+		enableSubmitButton(form, config)
 	}
 }
+
+function enableSubmitButton(form, config) {
+	const saveButton = form.querySelector(config.bottonSave);
+
+	saveButton.classList.remove(config.bottonSaveInactive);
+	saveButton.removeAttribute('disabled');
+}
+
+function disableSubmitButton(form, config) {
+	const saveButton = form.querySelector(config.bottonSave);
+
+	saveButton.classList.add(config.bottonSaveInactive);
+	saveButton.setAttribute('disabled', true);
+}
+
+enableValidation(listValidation);

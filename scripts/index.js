@@ -55,45 +55,32 @@ function openPopup(popup) {
 
 	popup.addEventListener('click', closePopupByClickOnOverlay);
 	document.addEventListener('keydown', closePopupByPressEscapeKey);
-
-	enableValidation(
-		{
-			form: '.popup__container',
-			input: '.popup__item',
-			inputError: 'popup__item_type_error',
-			spanError: 'popup__item-error_active',
-			bottonSave: '.popup__save-button',
-			bottonSaveInactive: 'popup__save-button_inactive'
-		}
-	);
 }
 
-function closePopup() {
-	const activePopup = document.querySelector('.popup_opened');
-	activePopup.classList.remove('popup_opened');
+function closePopup(popup) {
+	popup.classList.remove('popup_opened');
 
+	popup.removeEventListener('click', closePopupByClickOnOverlay);
 	document.removeEventListener('keydown', closePopupByPressEscapeKey);
 }
 
 function closePopupByClickOnOverlay(event) {
-	if (event.target !== event.currentTarget) {
-		return;
-	} else {
-		closePopup();
+	if (event.target === event.currentTarget) {
+		closePopup(event.currentTarget);
 	}
 }
 
 function closePopupByPressEscapeKey(event) {
-	if (event.key !== 'Escape') {
-		return;
-	} else {
-		closePopup();
+	const activePopup = document.querySelector('.popup_opened');
+	if (event.key === 'Escape') {
+		closePopup(activePopup);
 	}
 }
 
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
 	openPopup(popupEditProfile);
 	fillPopupProfileFormFields();
+	enableSubmitButton(popupEditProfile, listValidation);
 });
 
 function fillPopupProfileFormFields() {
@@ -107,23 +94,24 @@ function popupContainerSubmitHandler(evt) {
 	profileTitleElement.textContent = nameInputElement.value;
 	profileSubtitleElement.textContent = descriptionInputElement.value;
 
-	closePopup();
+	closePopup(popupEditProfile);
 };
 
 popupEditContainer.addEventListener('submit', popupContainerSubmitHandler);
 
 popupEditCloseButton.addEventListener('click', () => {
-	closePopup();
+	closePopup(popupEditProfile);
 });
 
 profileAddButtonForAddForm.addEventListener('click', () => {
 	openPopup(popupAddFormElement);
 	placeInputElement.value = '';
 	titleInputElement.value = '';
+	disableSubmitButton(popupAddFormElement, listValidation);
 });
 
 popupAddCloseButton.addEventListener('click', () => {
-	closePopup();
+	closePopup(popupAddFormElement);
 });
 
 function addInitialCards() {
@@ -171,7 +159,7 @@ function createNewCard(card) {
 function addNewCardSubmitHandler(event) {
 	event.preventDefault();
 	addNewCard({ link: placeInputElement.value, name: titleInputElement.value });
-	closePopup();
+	closePopup(popupAddFormElement);
 }
 
 popupAddFormContainer.addEventListener('submit', addNewCardSubmitHandler);
@@ -182,7 +170,7 @@ function addNewCard(card) {
 }
 
 popupImageCloseButton.addEventListener('click', () => {
-	closePopup();
+	closePopup(popupImageElement);
 });
 
 addInitialCards();
