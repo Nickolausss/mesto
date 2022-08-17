@@ -1,4 +1,11 @@
+import {
+	arrayCard,
+	listValidation
+} from './arrays.js';
+
 import { Card } from './Card.js';
+
+import { FormValidator } from './FormValidator.js';
 
 import {
 	// popup edit form
@@ -25,7 +32,7 @@ import {
 	popupImageCloseButton
 } from './constants.js';
 
-export function openPopup(popup) {
+function openPopup(popup) {
 	popup.classList.add('popup_opened');
 
 	popup.addEventListener('click', closePopupByClickOnOverlay);
@@ -55,7 +62,7 @@ function closePopupByPressEscapeKey(event) {
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
 	openPopup(popupEditProfile);
 	fillPopupProfileFormFields();
-	enableSubmitButton(popupEditProfile, listValidation);
+	newFormValidator.enableSubmitButton(popupEditProfile);
 });
 
 function fillPopupProfileFormFields() {
@@ -80,7 +87,7 @@ popupEditCloseButton.addEventListener('click', () => {
 
 profileAddButtonForAddForm.addEventListener('click', () => {
 	openPopup(popupAddFormElement);
-	disableSubmitButton(popupAddFormElement, listValidation);
+	newFormValidator.disableSubmitButton(popupAddFormElement);
 });
 
 popupAddCloseButton.addEventListener('click', () => {
@@ -91,23 +98,12 @@ popupImageCloseButton.addEventListener('click', () => {
 	closePopup(popupImageElement);
 });
 
-// Практическая работа 7
-
-const arrayCard = [
-	{ name: 'Греция', link: './images/element/element-greece.jpg' },
-	{ name: 'Гонконг', link: './images/element/element-hongkong.jpg' },
-	{ name: 'Индонезия', link: './images/element/element-indonesia.jpg' },
-	{ name: 'Южная Корея', link: './images/element/element-korea.jpg' },
-	{ name: 'Соединенные Штаты Америки', link: './images/element/element-usa.jpg' },
-	{ name: 'Объединённые Арабские Эмираты', link: './images/element/element-uae.jpg' }
-];
-
 function addInitialCards() {
 	arrayCard.forEach(item => createNewCard(item));
 }
 
 function createNewCard(item) {
-	const card = new Card(item, '#template-card');
+	const card = new Card(item, '#template-card', openPopup);
 	const cardElement = card.generateCard();
 
 	elementsSectionElement.prepend(cardElement);
@@ -124,4 +120,12 @@ popupAddFormContainer.addEventListener('submit', (event) => {
 	popupAddFormContainer.reset();
 });
 
+const newFormValidator = new FormValidator(listValidation);
+
+function onValidation() {
+	const validation = newFormValidator.enableValidation();
+	return validation;
+}
+
 addInitialCards();
+onValidation();

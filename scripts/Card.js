@@ -1,13 +1,9 @@
-import { openPopup } from './index.js';
-import {
-
-} from './constants.js';
-
 export class Card {
-	constructor(data, template) {
+	constructor(data, template, openPopup) {
 		this.name = data.name;
 		this.link = data.link;
 		this.template = template;
+		this.openPopup = openPopup;
 	}
 
 	_getTemplate() {
@@ -40,8 +36,8 @@ export class Card {
 
 		this._element.querySelector('.element__image').addEventListener('click',
 			() => {
-				const popupImageElement = document.querySelector('.popup_type_image')
-				openPopup(popupImageElement);
+				const popupImageElement = document.querySelector('.popup_type_image');
+				this.openPopup(popupImageElement);
 				popupImageElement.querySelector('.popup__image').src = this.link;
 				popupImageElement.querySelector('.popup__image').alt = this.name;
 				popupImageElement.querySelector('.popup__image-subtitle').textContent = this.name;
