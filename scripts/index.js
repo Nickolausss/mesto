@@ -62,7 +62,7 @@ function closePopupByPressEscapeKey(event) {
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
 	openPopup(popupEditProfile);
 	fillPopupProfileFormFields();
-	newFormValidator.enableSubmitButton(popupEditProfile);
+	formEditContainerValidation.enableSubmitButton();
 });
 
 function fillPopupProfileFormFields() {
@@ -70,7 +70,7 @@ function fillPopupProfileFormFields() {
 	descriptionInputElement.value = profileSubtitleElement.textContent;
 };
 
-function popupContainerSubmitHandler(evt) {
+function handleProfileFormSubmit(evt) {
 	evt.preventDefault();
 
 	profileTitleElement.textContent = nameInputElement.value;
@@ -79,7 +79,7 @@ function popupContainerSubmitHandler(evt) {
 	closePopup(popupEditProfile);
 };
 
-popupEditContainer.addEventListener('submit', popupContainerSubmitHandler);
+popupEditContainer.addEventListener('submit', handleProfileFormSubmit);
 
 popupEditCloseButton.addEventListener('click', () => {
 	closePopup(popupEditProfile);
@@ -87,7 +87,7 @@ popupEditCloseButton.addEventListener('click', () => {
 
 profileAddButtonForAddForm.addEventListener('click', () => {
 	openPopup(popupAddFormElement);
-	newFormValidator.disableSubmitButton(popupAddFormElement);
+	formAddContainerValidation.disableSubmitButton();
 });
 
 popupAddCloseButton.addEventListener('click', () => {
@@ -105,8 +105,11 @@ function addInitialCards() {
 function createNewCard(item) {
 	const card = new Card(item, '#template-card', openPopup);
 	const cardElement = card.generateCard();
+	renderCard(cardElement);
+}
 
-	elementsSectionElement.prepend(cardElement);
+function renderCard(card) {
+	elementsSectionElement.prepend(card);
 }
 
 function addNewCardSubmitHandler(event) {
@@ -120,12 +123,10 @@ popupAddFormContainer.addEventListener('submit', (event) => {
 	popupAddFormContainer.reset();
 });
 
-const newFormValidator = new FormValidator(listValidation);
+const formEditContainerValidation = new FormValidator(listValidation, popupEditContainer);
+formEditContainerValidation.enableValidation();
 
-function onValidation() {
-	const validation = newFormValidator.enableValidation();
-	return validation;
-}
+const formAddContainerValidation = new FormValidator(listValidation, popupAddFormContainer);
+formAddContainerValidation.enableValidation();
 
 addInitialCards();
-onValidation();

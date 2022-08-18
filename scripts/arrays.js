@@ -8,7 +8,6 @@ export const arrayCard = [
 ];
 
 export const listValidation = {
-	form: '.popup__container',
 	input: '.popup__item',
 	inputError: 'popup__item_type_error',
 	spanError: 'popup__item-error_active',

@@ -1,29 +1,21 @@
 export class FormValidator {
-	constructor(config) {
+	constructor(config, form) {
 		this.config = config;
+		this.form = form;
+		this.saveButton = this.form.querySelector(this.config.bottonSave);
 	}
 
 	enableValidation() {
-		const formList = Array.from(document.querySelectorAll(this.config.form));
-		formList.forEach(form => {
-			form.addEventListener('submit', event => {
-				this._handleFormSubmit(event);
-			});
-			this._setInputListener(form);
-		});
+		this._setInputListener();
 	}
 
-	_handleFormSubmit(event) {
-		event.preventDefault();
-	}
-
-	_setInputListener(form) {
-		const inputList = Array.from(form.querySelectorAll(this.config.input));
-		this._setSubmitButtonState(form);
+	_setInputListener() {
+		const inputList = Array.from(this.form.querySelectorAll(this.config.input));
+		this._setSubmitButtonState();
 		inputList.forEach(input => {
 			input.addEventListener('input', event => {
 				this._handleInputValidity(event);
-				this._setSubmitButtonState(form);
+				this._setSubmitButtonState();
 			});
 		});
 	}
@@ -54,27 +46,23 @@ export class FormValidator {
 		span.textContent = '';
 	}
 
-	_setSubmitButtonState(form) {
-		const isValid = form.checkValidity();
+	_setSubmitButtonState() {
+		const isValid = this.form.checkValidity();
 
 		if (!isValid) {
-			this.disableSubmitButton(form)
+			this.disableSubmitButton();
 		} else {
-			this.enableSubmitButton(form)
+			this.enableSubmitButton();
 		}
 	}
 
-	enableSubmitButton(form) {
-		const saveButton = form.querySelector(this.config.bottonSave);
-
-		saveButton.classList.remove(this.config.bottonSaveInactive);
-		saveButton.removeAttribute('disabled');
+	enableSubmitButton() {
+		this.saveButton.classList.remove(this.config.bottonSaveInactive);
+		this.saveButton.removeAttribute('disabled');
 	}
 
-	disableSubmitButton(form) {
-		const saveButton = form.querySelector(this.config.bottonSave);
-
-		saveButton.classList.add(this.config.bottonSaveInactive);
-		saveButton.setAttribute('disabled', true);
+	disableSubmitButton() {
+		this.saveButton.classList.add(this.config.bottonSaveInactive);
+		this.saveButton.setAttribute('disabled', true);
 	}
 }

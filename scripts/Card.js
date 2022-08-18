@@ -16,9 +16,11 @@ export class Card {
 		this._element = this._getTemplate();
 		this._setEventListeners();
 
+		const elementImage = this._element.querySelector('.element__image');
+
 		this._element.querySelector('.element__title').textContent = this.name;
-		this._element.querySelector('.element__image').src = this.link;
-		this._element.querySelector('.element__image').alt = this.name;
+		elementImage.src = this.link;
+		elementImage.alt = this.name;
 
 		return this._element;
 	}
@@ -26,21 +28,37 @@ export class Card {
 	_setEventListeners() {
 		this._element.querySelector('.element__button-like').addEventListener('click',
 			event => {
-				const switchLike = event.target;
-				switchLike.classList.toggle('button__like_active');
+				this._setToggleLikeButton(event);
 			});
 
 		this._element.querySelector('.element__button-trash').addEventListener('click', () => {
-			this._element.remove();
+			this._handleTrashButtonToRemove();
 		});
 
 		this._element.querySelector('.element__image').addEventListener('click',
 			() => {
-				const popupImageElement = document.querySelector('.popup_type_image');
-				this.openPopup(popupImageElement);
-				popupImageElement.querySelector('.popup__image').src = this.link;
-				popupImageElement.querySelector('.popup__image').alt = this.name;
-				popupImageElement.querySelector('.popup__image-subtitle').textContent = this.name;
+				this._handleImageElementToOpenPopupImage();
 			});
+	}
+
+	_setToggleLikeButton(event) {
+		const switchLike = event.target;
+		switchLike.classList.toggle('button__like_active');
+	}
+
+	_handleTrashButtonToRemove() {
+		this._element.remove();
+		this._element = null;
+	}
+
+	_handleImageElementToOpenPopupImage() {
+		const popupImageElement = document.querySelector('.popup_type_image');
+		const popupImage = popupImageElement.querySelector('.popup__image');
+
+		this.openPopup(popupImageElement);
+
+		popupImage.src = this.link;
+		popupImage.alt = this.name;
+		popupImageElement.querySelector('.popup__image-subtitle').textContent = this.name;
 	}
 }
