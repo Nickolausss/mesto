@@ -98,14 +98,22 @@ popupImageCloseButton.addEventListener('click', () => {
 	closePopup(popupImageElement);
 });
 
-function addInitialCards() {
-	arrayCard.forEach(item => createNewCard(item));
+function InitialCards() {
+	arrayCard.forEach((item) => {
+		const card = createNewCard(item);
+		renderCard(card);
+	});
+}
+
+function addNewCard(item) {
+	const card = createNewCard(item);
+	renderCard(card);
 }
 
 function createNewCard(item) {
 	const card = new Card(item, '#template-card', openPopup);
 	const cardElement = card.generateCard();
-	renderCard(cardElement);
+	return cardElement;
 }
 
 function renderCard(card) {
@@ -114,7 +122,7 @@ function renderCard(card) {
 
 function addNewCardSubmitHandler(event) {
 	event.preventDefault();
-	createNewCard({ link: placeInputElement.value, name: titleInputElement.value });
+	addNewCard({ link: placeInputElement.value, name: titleInputElement.value });
 	closePopup(popupAddFormElement);
 }
 
@@ -129,4 +137,4 @@ formEditContainerValidation.enableValidation();
 const formAddContainerValidation = new FormValidator(listValidation, popupAddFormContainer);
 formAddContainerValidation.enableValidation();
 
-addInitialCards();
+InitialCards();
