@@ -3,8 +3,10 @@ import {
 	listValidation
 } from './arrays.js';
 
+import Section from './Section.js';
+import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
 import { Card } from './Card.js';
-
 import { FormValidator } from './FormValidator.js';
 
 import {
@@ -32,35 +34,8 @@ import {
 	popupImageCloseButton
 } from './constants.js';
 
-function openPopup(popup) {
-	popup.classList.add('popup_opened');
-
-	popup.addEventListener('click', closePopupByClickOnOverlay);
-	document.addEventListener('keydown', closePopupByPressEscapeKey);
-}
-
-function closePopup(popup) {
-	popup.classList.remove('popup_opened');
-
-	popup.removeEventListener('click', closePopupByClickOnOverlay);
-	document.removeEventListener('keydown', closePopupByPressEscapeKey);
-}
-
-function closePopupByClickOnOverlay(event) {
-	if (event.target === event.currentTarget) {
-		closePopup(event.currentTarget);
-	}
-}
-
-function closePopupByPressEscapeKey(event) {
-	if (event.key === 'Escape') {
-		const activePopup = document.querySelector('.popup_opened');
-		closePopup(activePopup);
-	}
-}
-
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
-	openPopup(popupEditProfile);
+	popupClass.open();
 	fillPopupProfileFormFields();
 	formEditContainerValidation.enableSubmitButton();
 });
@@ -76,14 +51,10 @@ function handleProfileFormSubmit(evt) {
 	profileTitleElement.textContent = nameInputElement.value;
 	profileSubtitleElement.textContent = descriptionInputElement.value;
 
-	closePopup(popupEditProfile);
+	popupClass.close();
 };
 
 popupEditContainer.addEventListener('submit', handleProfileFormSubmit);
-
-popupEditCloseButton.addEventListener('click', () => {
-	closePopup(popupEditProfile);
-});
 
 profileAddButtonForAddForm.addEventListener('click', () => {
 	openPopup(popupAddFormElement);
@@ -94,35 +65,9 @@ popupAddCloseButton.addEventListener('click', () => {
 	closePopup(popupAddFormElement);
 });
 
-popupImageCloseButton.addEventListener('click', () => {
-	closePopup(popupImageElement);
-});
-
-function InitialCards() {
-	arrayCard.forEach((item) => {
-		const card = createNewCard(item);
-		renderCard(card);
-	});
-}
-
-function addNewCard(item) {
-	const card = createNewCard(item);
-	renderCard(card);
-}
-
-function createNewCard(item) {
-	const card = new Card(item, '#template-card', openPopup);
-	const cardElement = card.generateCard();
-	return cardElement;
-}
-
-function renderCard(card) {
-	elementsSectionElement.prepend(card);
-}
-
 function addNewCardSubmitHandler(event) {
 	event.preventDefault();
-	addNewCard({ link: placeInputElement.value, name: titleInputElement.value });
+	addNewCard([{ name: titleInputElement.value, link: placeInputElement.value }]);
 	closePopup(popupAddFormElement);
 }
 
@@ -137,4 +82,26 @@ formEditContainerValidation.enableValidation();
 const formAddContainerValidation = new FormValidator(listValidation, popupAddFormContainer);
 formAddContainerValidation.enableValidation();
 
-InitialCards();
+// Практическая работа 8
+
+function addNewCard(obj) {
+	const cardList = new Section({
+		items: obj,
+		renderer: (cardItem) => {
+			const card = new Card(cardItem, '#template-card', () => {
+				popupImageClass.open(cardItem);
+			});
+
+			const cardElement = card.generateCard();
+
+			cardList.addItem(cardElement);
+		}
+	}, '.elements');
+
+	cardList.renderer();
+}
+
+addNewCard(arrayCard);
+
+const popupClass = new Popup(popupEditProfile);
+const popupImageClass = new PopupWithImage(popupImageElement);

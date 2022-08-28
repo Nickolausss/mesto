@@ -3,7 +3,7 @@ export class Card {
 		this.name = data.name;
 		this.link = data.link;
 		this.template = template;
-		this.openPopup = openPopup;
+		this._openPopup = openPopup;
 	}
 
 	_getTemplate() {
@@ -37,7 +37,7 @@ export class Card {
 
 		this._element.querySelector('.element__image').addEventListener('click',
 			() => {
-				this._handleImageElementToOpenPopupImage();
+				this._openPopup();
 			});
 	}
 
@@ -49,16 +49,5 @@ export class Card {
 	_handleTrashButtonToRemove() {
 		this._element.remove();
 		this._element = null;
-	}
-
-	_handleImageElementToOpenPopupImage() {
-		const popupImageElement = document.querySelector('.popup_type_image');
-		const popupImage = popupImageElement.querySelector('.popup__image');
-
-		this.openPopup(popupImageElement);
-
-		popupImage.src = this.link;
-		popupImage.alt = this.name;
-		popupImageElement.querySelector('.popup__image-subtitle').textContent = this.name;
 	}
 }
