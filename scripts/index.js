@@ -6,6 +6,7 @@ import {
 import Section from './Section.js';
 import Popup from './Popup.js';
 import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js';
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 
@@ -57,24 +58,20 @@ function handleProfileFormSubmit(evt) {
 popupEditContainer.addEventListener('submit', handleProfileFormSubmit);
 
 profileAddButtonForAddForm.addEventListener('click', () => {
-	openPopup(popupAddFormElement);
+	popupAddFormClass.open();
 	formAddContainerValidation.disableSubmitButton();
 });
 
-popupAddCloseButton.addEventListener('click', () => {
-	closePopup(popupAddFormElement);
-});
+// function addNewCardSubmitHandler(event) {
+// 	// event.preventDefault();
+// 	addNewCard([{ name: titleInputElement.value, link: placeInputElement.value }]);
+// 	// closePopup(popupAddFormElement);
+// }
 
-function addNewCardSubmitHandler(event) {
-	event.preventDefault();
-	addNewCard([{ name: titleInputElement.value, link: placeInputElement.value }]);
-	closePopup(popupAddFormElement);
-}
-
-popupAddFormContainer.addEventListener('submit', (event) => {
-	addNewCardSubmitHandler(event);
-	popupAddFormContainer.reset();
-});
+// popupAddFormContainer.addEventListener('submit', (event) => {
+// 	addNewCardSubmitHandler(event);
+// 	// popupAddFormContainer.reset();
+// });
 
 const formEditContainerValidation = new FormValidator(listValidation, popupEditContainer);
 formEditContainerValidation.enableValidation();
@@ -84,24 +81,37 @@ formAddContainerValidation.enableValidation();
 
 // Практическая работа 8
 
-function addNewCard(obj) {
-	const cardList = new Section({
-		items: obj,
-		renderer: (cardItem) => {
-			const card = new Card(cardItem, '#template-card', () => {
-				popupImageClass.open(cardItem);
-			});
+const cardList = new Section({
+	items: arrayCard,
+	renderer: (cardItem) => {
+		const card = new Card(cardItem, '#template-card', () => {
+			popupImageClass.open(cardItem);
+		});
 
-			const cardElement = card.generateCard();
+		const cardElement = card.generateCard();
 
-			cardList.addItem(cardElement);
-		}
-	}, '.elements');
+		cardList.addItem(cardElement);
+	}
+}, '.elements');
 
-	cardList.renderer();
-}
-
-addNewCard(arrayCard);
+cardList.renderer();
 
 const popupClass = new Popup(popupEditProfile);
+
 const popupImageClass = new PopupWithImage(popupImageElement);
+popupImageClass.setEventListeners();
+
+const popupAddFormClass = new PopupWithForm(
+	popupAddFormElement,
+	(data) => {
+		const card = new Card({ name: data.title, link: data.place },
+			'#template-card', () => {
+				popupImageClass.open({ name: data.title, link: data.place });
+			});
+
+		const cardElement = card.generateCard();
+
+		cardList.addItem(cardElement);
+	}
+);
+popupAddFormClass.setEventListeners();
