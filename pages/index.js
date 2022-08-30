@@ -1,45 +1,35 @@
+import Card from '../scripts/components/Card.js';
+import Section from '../scripts/components/Section.js';
+import PopupWithImage from '../scripts/components/PopupWithImage.js';
+import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import FormValidator from '../scripts/components/FormValidator.js';
+import UserInfo from '../scripts/components/UserInfo.js';
+
 import {
 	arrayCard,
 	listValidation
-} from './arrays.js';
-
-import Section from './Section.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
-
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
+} from '../scripts/utils/arrays.js';
 
 import {
 	// popup edit form
 	popupEditProfile,
 	popupEditContainer,
-	popupEditCloseButton,
 	nameInputElement,
 	descriptionInputElement,
 	// block profile
 	buttonEditToOpenPopupEditProfile,
-	profileTitleElement,
-	profileSubtitleElement,
 	profileAddButtonForAddForm,
 	// popup add form
 	popupAddFormElement,
 	popupAddFormContainer,
-	placeInputElement,
-	titleInputElement,
-	popupAddCloseButton,
-	// elemets section
-	elementsSectionElement,
 	// popup image
-	popupImageElement,
-	popupImageCloseButton
-} from './constants.js';
+	popupImageElement
+} from '../scripts/utils/constants.js';
 
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
 	popupEditFormClass.open();
-	nameInputElement.value = usreInfoClass.getUserInfo().title;
-	descriptionInputElement.value = usreInfoClass.getUserInfo().subtitle;
+	nameInputElement.value = userInfoClass.getUserInfo().title;
+	descriptionInputElement.value = userInfoClass.getUserInfo().subtitle;
 	formEditContainerValidation.enableSubmitButton();
 });
 
@@ -87,7 +77,7 @@ const popupAddFormClass = new PopupWithForm(
 );
 popupAddFormClass.setEventListeners();
 
-const usreInfoClass = new UserInfo({
+const userInfoClass = new UserInfo({
 	title: '.profile__title',
 	subtitle: '.profile__subtitle'
 });
@@ -95,7 +85,7 @@ const usreInfoClass = new UserInfo({
 const popupEditFormClass = new PopupWithForm(
 	popupEditProfile,
 	(data) => {
-		usreInfoClass.setUserInfo({
+		userInfoClass.setUserInfo({
 			title: data.name,
 			subtitle: data.description
 		})
