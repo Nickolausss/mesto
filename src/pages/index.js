@@ -46,16 +46,19 @@ formEditContainerValidation.enableValidation();
 const formAddContainerValidation = new FormValidator(listValidation, popupAddFormContainer);
 formAddContainerValidation.enableValidation();
 
+function createClassCard(data, selector, render) {
+	const card = new Card(data, selector, render);
+	const cardElement = card.generateCard();
+
+	cardList.addItem(cardElement);
+};
+
 const cardList = new Section({
 	items: arrayCard,
 	renderer: (cardItem) => {
-		const card = new Card(cardItem, '#template-card', () => {
+		createClassCard(cardItem, '#template-card', () => {
 			popupImageClass.open(cardItem);
 		});
-
-		const cardElement = card.generateCard();
-
-		cardList.addItem(cardElement);
 	}
 }, '.elements');
 
@@ -67,14 +70,10 @@ popupImageClass.setEventListeners();
 const popupAddFormClass = new PopupWithForm(
 	popupAddFormElement,
 	(data) => {
-		const card = new Card({ name: data.title, link: data.place },
+		createClassCard({ name: data.title, link: data.place },
 			'#template-card', () => {
 				popupImageClass.open({ name: data.title, link: data.place });
 			});
-
-		const cardElement = card.generateCard();
-
-		cardList.addItem(cardElement);
 	}
 );
 popupAddFormClass.setEventListeners();

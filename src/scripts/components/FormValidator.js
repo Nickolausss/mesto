@@ -3,6 +3,7 @@ export default class FormValidator {
 		this.config = config;
 		this.form = form;
 		this.saveButton = this.form.querySelector(this.config.bottonSave);
+		this.inputList = Array.from(this.form.querySelectorAll(this.config.input));
 	}
 
 	enableValidation() {
@@ -10,9 +11,8 @@ export default class FormValidator {
 	}
 
 	_setInputListener() {
-		const inputList = Array.from(this.form.querySelectorAll(this.config.input));
 		this._setSubmitButtonState();
-		inputList.forEach(input => {
+		this.inputList.forEach(input => {
 			input.addEventListener('input', event => {
 				this._handleInputValidity(event);
 				this._setSubmitButtonState();

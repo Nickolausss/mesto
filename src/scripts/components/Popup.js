@@ -10,7 +10,7 @@ export default class Popup {
 		this._formSelector.classList.add('popup_opened');
 
 		document.addEventListener('keydown', this._handleEscClose);
-		this._formSelector.addEventListener('click', this._handleOverlayClose);
+		this._formSelector.addEventListener('mousedown', this._handleOverlayClose);
 	}
 
 	close() {
