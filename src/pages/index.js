@@ -46,7 +46,7 @@ formEditContainerValidation.enableValidation();
 const formAddContainerValidation = new FormValidator(listValidation, popupAddFormContainer);
 formAddContainerValidation.enableValidation();
 
-function createClassCard(data, selector, render) {
+function createCard(data, selector, render) {
 	const card = new Card(data, selector, render);
 	const cardElement = card.generateCard();
 
@@ -56,7 +56,7 @@ function createClassCard(data, selector, render) {
 const cardList = new Section({
 	items: arrayCard,
 	renderer: (cardItem) => {
-		createClassCard(cardItem, '#template-card', () => {
+		createCard(cardItem, '#template-card', () => {
 			popupImageClass.open(cardItem);
 		});
 	}
@@ -70,7 +70,7 @@ popupImageClass.setEventListeners();
 const popupAddFormClass = new PopupWithForm(
 	popupAddFormElement,
 	(data) => {
-		createClassCard({ name: data.title, link: data.place },
+		createCard({ name: data.title, link: data.place },
 			'#template-card', () => {
 				popupImageClass.open({ name: data.title, link: data.place });
 			});
