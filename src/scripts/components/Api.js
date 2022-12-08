@@ -21,4 +21,32 @@ export default class Api {
 			}
 		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
 	}
+
+	editProfileInfo(inputsValue) {
+		return fetch(
+			`${this._baseUrl}/users/me`,
+			{
+				method: 'PATCH',
+				headers: this._headers,
+				body: JSON.stringify({
+					name: inputsValue.name,
+					about: inputsValue.description
+				})
+			}
+		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+	}
+
+	addNewCard(inputsValue) {
+		return fetch(
+			`${this._baseUrl}/cards`,
+			{
+				method: 'POST',
+				headers: this._headers,
+				body: JSON.stringify({
+					name: inputsValue.title,
+					link: inputsValue.place
+				})
+			}
+		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+	}
 };

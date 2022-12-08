@@ -50,11 +50,19 @@ const popupImageClass = new PopupWithImage(popupImageElement);
 
 const popupAddFormClass = new PopupWithForm(
 	popupAddFormElement,
-	(data) => {
-		createCard({ name: data.title, link: data.place },
-			'#template-card', () => {
-				popupImageClass.open({ name: data.title, link: data.place });
-			});
+	(inputsValue) => {
+		api.addNewCard(inputsValue)
+			.then(result => {
+				createCard(
+					{ name: result.name, link: result.link },
+					'#template-card',
+					() => {
+						popupImageClass.open({ name: result.name, link: result.link });
+					});
+			})
+			.catch(error => {
+				console.log(`Ошибка в методе addNewCard: ${error}`);
+			})
 	}
 );
 
@@ -66,11 +74,18 @@ const userInfoClass = new UserInfo({
 
 const popupEditFormClass = new PopupWithForm(
 	popupEditProfile,
-	(data) => {
-		userInfoClass.setUserInfo({
-			title: data.name,
-			subtitle: data.description
-		})
+	(inputsValue) => {
+		api.editProfileInfo(inputsValue)
+			.then(result => {
+				userInfoClass.setUserInfo(
+					result.name,
+					result.about,
+					result.avatar
+				)
+			})
+			.catch(error => {
+				console.log(`Ошибка в методе editProfileInfo: ${error}`);
+			})
 	}
 );
 
