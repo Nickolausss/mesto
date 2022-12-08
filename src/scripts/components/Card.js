@@ -2,7 +2,9 @@ export default class Card {
 	constructor(data, template, openPopup) {
 		this.name = data.name;
 		this.link = data.link;
+
 		this.template = template;
+
 		this._openPopup = openPopup;
 	}
 

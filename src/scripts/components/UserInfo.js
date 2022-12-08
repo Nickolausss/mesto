@@ -2,6 +2,7 @@ export default class UserInfo {
 	constructor(dataSelectors) {
 		this._userTitle = document.querySelector(dataSelectors.title);
 		this._userSubtitle = document.querySelector(dataSelectors.subtitle);
+		this._userAvatar = document.querySelector(dataSelectors.avatar);
 	}
 
 	getUserInfo() {
@@ -9,8 +10,9 @@ export default class UserInfo {
 		return this._dataInfo;
 	}
 
-	setUserInfo(data) {
-		this._userTitle.textContent = data.title;
-		this._userSubtitle.textContent = data.subtitle;
+	setUserInfo(title, subtitle, avatar) {
+		this._userTitle.textContent = title;
+		this._userSubtitle.textContent = subtitle;
+		this._userAvatar.src = avatar;
 	}
 }
