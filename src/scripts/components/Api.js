@@ -20,7 +20,7 @@ export default class Api {
 				headers: this._headers
 			}
 		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-	}
+	};
 
 	editProfileInfo(inputsValue) {
 		return fetch(
@@ -34,7 +34,7 @@ export default class Api {
 				})
 			}
 		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-	}
+	};
 
 	addNewCard(inputsValue) {
 		return fetch(
@@ -48,5 +48,15 @@ export default class Api {
 				})
 			}
 		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-	}
+	};
+
+	deleteCard(id) {
+		return fetch(
+			`${this._baseUrl}/cards/${id}`,
+			{
+				method: 'DELETE',
+				headers: this._headers
+			}
+		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+	};
 };

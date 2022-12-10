@@ -1,15 +1,16 @@
 export default class Card {
-	constructor(data, template, renders) {
+	constructor(data, template, handleImageClick, handleDeleteClick) {
 		this._name = data.name;
 		this._link = data.link;
 		this._ownerCardId = data.ownerCardId;
 		this._userId = data.userId;
 		this._likes = data.likes.length;
+		this._cardId = data.cardId;
 
 		this._template = template;
 
-		this._handleImageClick = renders.handleImageClick;
-		this._handleDeleteClick = renders.handleDeleteClick;
+		this._handleImageClick = handleImageClick;
+		this._handleDeleteClick = handleDeleteClick;
 	}
 
 	_getTemplate() {
@@ -43,8 +44,7 @@ export default class Card {
 			});
 
 		this._element.querySelector('.element__button-trash').addEventListener('click', () => {
-			this._handleDeleteClick();
-			this._handleTrashButtonToRemove();
+			this._handleDeleteClick(this._cardId);
 		});
 
 		this._element.querySelector('.element__image').addEventListener('click',
@@ -58,7 +58,7 @@ export default class Card {
 		switchLike.classList.toggle('button__like_active');
 	}
 
-	_handleTrashButtonToRemove() {
+	removeCard() {
 		this._element.remove();
 		this._element = null;
 	}

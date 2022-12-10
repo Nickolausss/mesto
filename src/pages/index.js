@@ -96,8 +96,28 @@ popupEditFormClass.setEventListeners();
 popupConfirmDeleteClass.setEventListeners();
 
 
-function createCard(data, selector, renders) {
-	const card = new Card(data, selector, renders);
+function createCard(data, selector, render) {
+	const card = new Card(
+		data,
+		selector,
+		render,
+		(id) => {
+			popupConfirmDeleteClass.open();
+			popupConfirmDeleteClass.rewriteHandleButtonClick(
+				() => {
+					api.deleteCard(id)
+						.then(result => {
+							console.log(result);
+							card.removeCard();
+							popupConfirmDeleteClass.close();
+						})
+						.catch(error => {
+							console.log(`Ошибка в методе deleteCard: ${error}`);
+						})
+				}
+			);
+		}
+	);
 	const cardElement = card.generateCard();
 
 	cardList.addItem(cardElement);
@@ -117,13 +137,11 @@ function fillCallCreateCard(cardObj) {
 			link: cardObj.link,
 			ownerCardId: cardObj.owner._id,
 			userId: userId,
-			likes: cardObj.likes
+			likes: cardObj.likes,
+			cardId: cardObj._id
 		},
 		'#template-card',
-		{
-			handleImageClick: () => { popupImageClass.open(cardObj) },
-			handleDeleteClick: () => { popupConfirmDeleteClass.open() }
-		}
+		() => { popupImageClass.open(cardObj) }
 	);
 }
 
