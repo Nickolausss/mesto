@@ -1,15 +1,19 @@
 export default class Card {
-	constructor(data, template, openPopup) {
-		this.name = data.name;
-		this.link = data.link;
+	constructor(data, template, renders) {
+		this._name = data.name;
+		this._link = data.link;
+		this._ownerCardId = data.ownerCardId;
+		this._userId = data.userId;
+		this._likes = data.likes.length;
 
-		this.template = template;
+		this._template = template;
 
-		this._openPopup = openPopup;
+		this._handleImageClick = renders.handleImageClick;
+		this._handleDeleteClick = renders.handleDeleteClick;
 	}
 
 	_getTemplate() {
-		const templateCardElementClone = document.querySelector(this.template).content.querySelector('.element').cloneNode(true);
+		const templateCardElementClone = document.querySelector(this._template).content.querySelector('.element').cloneNode(true);
 
 		return templateCardElementClone;
 	}
@@ -20,9 +24,14 @@ export default class Card {
 
 		const elementImage = this._element.querySelector('.element__image');
 
-		this._element.querySelector('.element__title').textContent = this.name;
-		elementImage.src = this.link;
-		elementImage.alt = this.name;
+		this._element.querySelector('.element__title').textContent = this._name;
+		elementImage.src = this._link;
+		elementImage.alt = this._name;
+		this._element.querySelector('.element__like-counter').textContent = this._likes;
+
+		if (this._ownerCardId !== this._userId) {
+			this._element.querySelector('.element__button-trash').setAttribute('style', 'display: none');
+		}
 
 		return this._element;
 	}
@@ -34,12 +43,13 @@ export default class Card {
 			});
 
 		this._element.querySelector('.element__button-trash').addEventListener('click', () => {
+			this._handleDeleteClick();
 			this._handleTrashButtonToRemove();
 		});
 
 		this._element.querySelector('.element__image').addEventListener('click',
 			() => {
-				this._openPopup();
+				this._handleImageClick();
 			});
 	}
 

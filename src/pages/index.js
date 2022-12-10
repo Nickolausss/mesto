@@ -4,6 +4,7 @@ import Card from '../scripts/components/Card.js';
 import Section from '../scripts/components/Section.js';
 import PopupWithImage from '../scripts/components/PopupWithImage.js';
 import PopupWithForm from '../scripts/components/PopupWithForm.js';
+import PopupWithConfirmation from '../scripts/components/PopupWithConfirmation.js';
 import FormValidator from '../scripts/components/FormValidator.js';
 import UserInfo from '../scripts/components/UserInfo.js';
 import Api from '../scripts/components/Api.js';
@@ -23,7 +24,9 @@ import {
 	popupAddFormElement,
 	popupAddFormContainer,
 	// popup image
-	popupImageElement
+	popupImageElement,
+	// popup confirm delete card
+	popupDeleteCard,
 } from '../scripts/utils/constants.js';
 
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
@@ -53,12 +56,7 @@ const popupAddFormClass = new PopupWithForm(
 	(inputsValue) => {
 		api.addNewCard(inputsValue)
 			.then(result => {
-				createCard(
-					{ name: result.name, link: result.link },
-					'#template-card',
-					() => {
-						popupImageClass.open({ name: result.name, link: result.link });
-					});
+				fillCallCreateCard(result)
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе addNewCard: ${error}`);
@@ -89,14 +87,17 @@ const popupEditFormClass = new PopupWithForm(
 	}
 );
 
+const popupConfirmDeleteClass = new PopupWithConfirmation(popupDeleteCard);
+
 
 popupImageClass.setEventListeners();
 popupAddFormClass.setEventListeners();
 popupEditFormClass.setEventListeners();
+popupConfirmDeleteClass.setEventListeners();
 
 
-function createCard(data, selector, render) {
-	const card = new Card(data, selector, render);
+function createCard(data, selector, renders) {
+	const card = new Card(data, selector, renders);
 	const cardElement = card.generateCard();
 
 	cardList.addItem(cardElement);
@@ -104,11 +105,27 @@ function createCard(data, selector, render) {
 
 const cardList = new Section(
 	(cardItem) => {
-		createCard(cardItem, '#template-card', () => {
-			popupImageClass.open(cardItem);
-		});
+		fillCallCreateCard(cardItem);
 	}
 	, '.elements');
+
+
+function fillCallCreateCard(cardObj) {
+	createCard(
+		{
+			name: cardObj.name,
+			link: cardObj.link,
+			ownerCardId: cardObj.owner._id,
+			userId: userId,
+			likes: cardObj.likes
+		},
+		'#template-card',
+		{
+			handleImageClick: () => { popupImageClass.open(cardObj) },
+			handleDeleteClick: () => { popupConfirmDeleteClass.open() }
+		}
+	);
+}
 
 
 const api = new Api({
@@ -120,13 +137,17 @@ const api = new Api({
 });
 
 
+let userId;
+
 api.getProfileInfo()
 	.then(result => {
 		userInfoClass.setUserInfo(
 			result.name,
 			result.about,
 			result.avatar
-		)
+		);
+
+		userId = result._id;
 	})
 	.catch(error => {
 		console.log(`Ошибка в методе getProfileInfo: ${error}`);

@@ -12,6 +12,8 @@ const selectors = {
 	popupAddForm: '.popup_type_add-card',
 	// popup image
 	popupImage: '.popup_type_image',
+	// popup confirm delete card
+	popupDelete: '.popup_type_confir-delete',
 };
 
 // popup edit form
@@ -27,3 +29,5 @@ export const popupAddFormElement = document.querySelector(selectors.popupAddForm
 export const popupAddFormContainer = popupAddFormElement.querySelector(selectors.form);
 // popup image
 export const popupImageElement = document.querySelector(selectors.popupImage);
+// popup confirm delete card
+export const popupDeleteCard = document.querySelector(selectors.popupDelete);
