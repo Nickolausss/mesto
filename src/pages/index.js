@@ -98,9 +98,9 @@ popupConfirmDeleteClass.setEventListeners();
 
 function createCard(data, selector, render) {
 	const card = new Card(
-		data,
-		selector,
-		render,
+		data, // 1
+		selector, // 2
+		render, // 3
 		(id) => {
 			popupConfirmDeleteClass.open();
 			popupConfirmDeleteClass.rewriteHandleButtonClick(
@@ -116,7 +116,26 @@ function createCard(data, selector, render) {
 						})
 				}
 			);
-		}
+		}, // 4
+		(id) => {
+			if (card.isLiked()) {
+				api.deleteLike(id)
+					.then(result => {
+						card.setLikes(result.likes);
+					})
+					.catch(error => {
+						console.log(`Ошибка в методе deleteLike: ${error}`);
+					})
+			} else {
+				api.addLike(id)
+					.then(result => {
+						card.setLikes(result.likes);
+					})
+					.catch(error => {
+						console.log(`Ошибка в методе addLike: ${error}`);
+					})
+			}
+		}, // 5
 	);
 	const cardElement = card.generateCard();
 
@@ -188,5 +207,5 @@ api.getInitialCards()
 	// 	console.log(result);
 	// })
 	// .catch(error => {
-	// 	console.log(error);
+	// 	console.log(`Ошибка в методе deleteCard: ${error}`);
 	// })
