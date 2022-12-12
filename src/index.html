@@ -18,8 +18,8 @@
 		<main class="main">
 			<section class="profile page__profile">
 				<div class="profile__wrapper">
+					<button type="button" aria-label="Сменить аватар" class="profile__button-change-avatar"></button>
 					<img src="" alt="Фото пользователя" class="profile__avatar">
-					<!-- <%=require('./images/profile/profile-avatar.jpg')%> -->
 					<div class="profile__profile-info">
 						<div class="profile__profile-top">
 							<h1 class="profile__title"></h1>
@@ -62,12 +62,24 @@
 					</form>
 				</div>
 			</div>
+			<div class="popup popup_type_change-avatar">
+				<div class="popup__contant">
+					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
+					<form name="popup-change-avatar-form" class="popup__container" novalidate>
+						<h2 class="popup__title">Обновить аватар</h2>
+						<input id="avatar-input" type="url" name="avatar" placeholder="Ссылка на новый аватар" required
+							class="popup__item popup__item_input_avatar">
+						<span class="avatar-input-error popup__item-error"></span>
+						<button type="submit" class="popup__save-button" disabled>Сохранить</button>
+					</form>
+				</div>
+			</div>
 			<div class="popup popup_type_confir-delete">
 				<div class="popup__contant">
 					<button type="button" aria-label="Закрыть" class="popup__close-button"></button>
 					<form name="popup-delete-form" class="popup__container" novalidate>
 						<h2 class="popup__title popup__title_margin">Вы уверены?</h2>
-						<button type="button" class="popup__save-button popup__save-button_margin">Да</button>
+						<button type="button" class="popup__save-button">Да</button>
 					</form>
 				</div>
 			</div>

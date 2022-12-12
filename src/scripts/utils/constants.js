@@ -8,12 +8,15 @@ const selectors = {
 	// block profile
 	buttonEdit: '.profile__edit-button',
 	buttonAdd: '.profile__add-button',
+	buttonChange: '.profile__button-change-avatar',
 	// popup add form
 	popupAddForm: '.popup_type_add-card',
 	// popup image
 	popupImage: '.popup_type_image',
 	// popup confirm delete card
 	popupDelete: '.popup_type_confir-delete',
+	// popup change avatar
+	popupChange: '.popup_type_change-avatar',
 };
 
 // popup edit form
@@ -24,6 +27,7 @@ export const descriptionInputElement = popupEditProfile.querySelector(selectors.
 // block profile
 export const buttonEditToOpenPopupEditProfile = document.querySelector(selectors.buttonEdit);
 export const profileAddButtonForAddForm = document.querySelector(selectors.buttonAdd);
+export const buttonChangeAvatar = document.querySelector(selectors.buttonChange);
 // popup add form
 export const popupAddFormElement = document.querySelector(selectors.popupAddForm);
 export const popupAddFormContainer = popupAddFormElement.querySelector(selectors.form);
@@ -31,3 +35,6 @@ export const popupAddFormContainer = popupAddFormElement.querySelector(selectors
 export const popupImageElement = document.querySelector(selectors.popupImage);
 // popup confirm delete card
 export const popupDeleteCard = document.querySelector(selectors.popupDelete);
+// popup change avatar
+export const popupChangeAvatar = document.querySelector(selectors.popupChange);
+export const popupChangeAvatarForm = popupChangeAvatar.querySelector(selectors.form);

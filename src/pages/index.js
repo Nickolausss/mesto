@@ -20,6 +20,7 @@ import {
 	// block profile
 	buttonEditToOpenPopupEditProfile,
 	profileAddButtonForAddForm,
+	buttonChangeAvatar,
 	// popup add form
 	popupAddFormElement,
 	popupAddFormContainer,
@@ -27,6 +28,9 @@ import {
 	popupImageElement,
 	// popup confirm delete card
 	popupDeleteCard,
+	// popup change avatar
+	popupChangeAvatar,
+	popupChangeAvatarForm,
 } from '../scripts/utils/constants.js';
 
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
@@ -41,6 +45,11 @@ profileAddButtonForAddForm.addEventListener('click', () => {
 	formAddContainerValidation.disableSubmitButton();
 });
 
+buttonChangeAvatar.addEventListener('click', () => {
+	popupChangeAvatarClass.open();
+	formChangeAvatarContainerValidation.disableSubmitButton();
+})
+
 
 const formEditContainerValidation = new FormValidator(listValidation, popupEditContainer);
 formEditContainerValidation.enableValidation();
@@ -48,6 +57,8 @@ formEditContainerValidation.enableValidation();
 const formAddContainerValidation = new FormValidator(listValidation, popupAddFormContainer);
 formAddContainerValidation.enableValidation();
 
+const formChangeAvatarContainerValidation = new FormValidator(listValidation, popupChangeAvatarForm);
+formChangeAvatarContainerValidation.enableValidation();
 
 const popupImageClass = new PopupWithImage(popupImageElement);
 
@@ -75,11 +86,7 @@ const popupEditFormClass = new PopupWithForm(
 	(inputsValue) => {
 		api.editProfileInfo(inputsValue)
 			.then(result => {
-				userInfoClass.setUserInfo(
-					result.name,
-					result.about,
-					result.avatar
-				)
+				userInfoClass.setUserInfo(result)
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе editProfileInfo: ${error}`);
@@ -89,11 +96,25 @@ const popupEditFormClass = new PopupWithForm(
 
 const popupConfirmDeleteClass = new PopupWithConfirmation(popupDeleteCard);
 
+const popupChangeAvatarClass = new PopupWithForm(
+	popupChangeAvatar,
+	(inputValue) => {
+		api.changeAvatar(inputValue)
+			.then(result => {
+				userInfoClass.setUserInfo(result);
+			})
+			.catch(error => {
+				console.log(`Ошибка в методе changeAvatar: ${error}`);
+			})
+	}
+);
+
 
 popupImageClass.setEventListeners();
 popupAddFormClass.setEventListeners();
 popupEditFormClass.setEventListeners();
 popupConfirmDeleteClass.setEventListeners();
+popupChangeAvatarClass.setEventListeners();
 
 
 function createCard(data, selector, render) {
@@ -178,11 +199,7 @@ let userId;
 
 api.getProfileInfo()
 	.then(result => {
-		userInfoClass.setUserInfo(
-			result.name,
-			result.about,
-			result.avatar
-		);
+		userInfoClass.setUserInfo(result);
 
 		userId = result._id;
 	})
@@ -198,14 +215,3 @@ api.getInitialCards()
 	.catch(error => {
 		console.log(`Ошибка в методе getInitialCards: ${error}`);
 	})
-
-
-
-
-
-	// .then(result => {
-	// 	console.log(result);
-	// })
-	// .catch(error => {
-	// 	console.log(`Ошибка в методе deleteCard: ${error}`);
-	// })
