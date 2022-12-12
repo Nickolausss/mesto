@@ -67,7 +67,8 @@ const popupAddFormClass = new PopupWithForm(
 	(inputsValue) => {
 		api.addNewCard(inputsValue)
 			.then(result => {
-				fillCallCreateCard(result)
+				fillCallCreateCard(result);
+				popupAddFormClass.hideMessageSaving();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе addNewCard: ${error}`);
@@ -86,7 +87,8 @@ const popupEditFormClass = new PopupWithForm(
 	(inputsValue) => {
 		api.editProfileInfo(inputsValue)
 			.then(result => {
-				userInfoClass.setUserInfo(result)
+				userInfoClass.setUserInfo(result);
+				popupEditFormClass.hideMessageSaving();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе editProfileInfo: ${error}`);
@@ -102,6 +104,7 @@ const popupChangeAvatarClass = new PopupWithForm(
 		api.changeAvatar(inputValue)
 			.then(result => {
 				userInfoClass.setUserInfo(result);
+				popupChangeAvatarClass.hideMessageSaving();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе changeAvatar: ${error}`);

@@ -2,6 +2,7 @@ export default class Popup {
 	constructor(formSelector) {
 		this._formSelector = formSelector;
 		this._popupButtonClose = formSelector.querySelector('.popup__close-button');
+		this._buttonSave = formSelector.querySelector('.popup__save-button');
 		this._handleEscClose = this._handleEscClose.bind(this);
 		this._handleOverlayClose = this._handleOverlayClose.bind(this);
 	}
@@ -36,5 +37,13 @@ export default class Popup {
 		if (event.target === event.currentTarget) {
 			this.close(event.currentTarget);
 		}
+	}
+
+	showMessageSaving() {
+		this._buttonSave.textContent = 'Сохранение...';
+	}
+
+	hideMessageSaving() {
+		this._buttonSave.textContent = 'Сохранить';
 	}
 }
