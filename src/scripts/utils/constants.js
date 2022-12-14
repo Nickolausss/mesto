@@ -1,4 +1,4 @@
-const selectors = {
+export const selectors = {
 	// general
 	form: '.popup__container',
 	// popup edit form
@@ -20,21 +20,22 @@ const selectors = {
 };
 
 // popup edit form
-export const popupEditProfile = document.querySelector(selectors.popupEditProfile);
-export const popupEditContainer = popupEditProfile.querySelector(selectors.form);
-export const nameInputElement = popupEditProfile.querySelector(selectors.nameInput);
-export const descriptionInputElement = popupEditProfile.querySelector(selectors.descriptionInput);
+export const popupEditProfileForm = document.querySelector(selectors.popupEditProfile).querySelector(selectors.form);
+export const nameInputElement = popupEditProfileForm.querySelector(selectors.nameInput);
+export const descriptionInputElement = popupEditProfileForm.querySelector(selectors.descriptionInput);
 // block profile
 export const buttonEditToOpenPopupEditProfile = document.querySelector(selectors.buttonEdit);
 export const profileAddButtonForAddForm = document.querySelector(selectors.buttonAdd);
 export const buttonChangeAvatar = document.querySelector(selectors.buttonChange);
 // popup add form
-export const popupAddFormElement = document.querySelector(selectors.popupAddForm);
-export const popupAddFormContainer = popupAddFormElement.querySelector(selectors.form);
-// popup image
-export const popupImageElement = document.querySelector(selectors.popupImage);
-// popup confirm delete card
-export const popupDeleteCard = document.querySelector(selectors.popupDelete);
+export const popupAddCardForm = document.querySelector(selectors.popupAddForm).querySelector(selectors.form);
 // popup change avatar
-export const popupChangeAvatar = document.querySelector(selectors.popupChange);
-export const popupChangeAvatarForm = popupChangeAvatar.querySelector(selectors.form);
+export const popupChangeAvatarForm = document.querySelector(selectors.popupChange).querySelector(selectors.form);
+
+export const listValidation = {
+	input: '.popup__item',
+	inputError: 'popup__item_type_error',
+	spanError: 'popup__item-error_active',
+	bottonSave: '.popup__save-button',
+	bottonSaveInactive: 'popup__save-button_inactive'
+};

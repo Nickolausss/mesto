@@ -1,23 +1,23 @@
 export default class Popup {
-	constructor(formSelector) {
-		this._formSelector = formSelector;
-		this._popupButtonClose = formSelector.querySelector('.popup__close-button');
-		this._buttonSave = formSelector.querySelector('.popup__save-button');
+	constructor(popupSelector) {
+		this._popup = document.querySelector(popupSelector);
+
+		this._popupButtonClose = this._popup.querySelector('.popup__close-button');
 		this._handleEscClose = this._handleEscClose.bind(this);
 		this._handleOverlayClose = this._handleOverlayClose.bind(this);
 	}
 
 	open() {
-		this._formSelector.classList.add('popup_opened');
+		this._popup.classList.add('popup_opened');
 
 		document.addEventListener('keydown', this._handleEscClose);
-		this._formSelector.addEventListener('mousedown', this._handleOverlayClose);
+		this._popup.addEventListener('mousedown', this._handleOverlayClose);
 	}
 
 	close() {
-		this._formSelector.classList.remove('popup_opened');
+		this._popup.classList.remove('popup_opened');
 
-		this._formSelector.removeEventListener('click', this._handleOverlayClose);
+		this._popup.removeEventListener('mousedown', this._handleOverlayClose);
 		document.removeEventListener('keydown', this._handleEscClose);
 	}
 
@@ -37,13 +37,5 @@ export default class Popup {
 		if (event.target === event.currentTarget) {
 			this.close(event.currentTarget);
 		}
-	}
-
-	showMessageSaving() {
-		this._buttonSave.textContent = 'Сохранение...';
-	}
-
-	hideMessageSaving() {
-		this._buttonSave.textContent = 'Сохранить';
 	}
 }

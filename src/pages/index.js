@@ -9,12 +9,12 @@ import FormValidator from '../scripts/components/FormValidator.js';
 import UserInfo from '../scripts/components/UserInfo.js';
 import Api from '../scripts/components/Api.js';
 
-import { listValidation } from '../scripts/utils/arrays.js';
-
 import {
+	listValidation,
+
+	selectors,
 	// popup edit form
-	popupEditProfile,
-	popupEditContainer,
+	popupEditProfileForm,
 	nameInputElement,
 	descriptionInputElement,
 	// block profile
@@ -22,14 +22,8 @@ import {
 	profileAddButtonForAddForm,
 	buttonChangeAvatar,
 	// popup add form
-	popupAddFormElement,
-	popupAddFormContainer,
-	// popup image
-	popupImageElement,
-	// popup confirm delete card
-	popupDeleteCard,
+	popupAddCardForm,
 	// popup change avatar
-	popupChangeAvatar,
 	popupChangeAvatarForm,
 } from '../scripts/utils/constants.js';
 
@@ -37,38 +31,39 @@ buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
 	popupEditFormClass.open();
 	nameInputElement.value = userInfoClass.getUserInfo().title;
 	descriptionInputElement.value = userInfoClass.getUserInfo().subtitle;
-	formEditContainerValidation.enableSubmitButton();
+	validationEditForm.enableSubmitButton();
 });
 
 profileAddButtonForAddForm.addEventListener('click', () => {
 	popupAddFormClass.open();
-	formAddContainerValidation.disableSubmitButton();
+	validationAddCardForm.disableSubmitButton();
 });
 
 buttonChangeAvatar.addEventListener('click', () => {
 	popupChangeAvatarClass.open();
-	formChangeAvatarContainerValidation.disableSubmitButton();
+	validationChangeAvatarForm.disableSubmitButton();
 })
 
 
-const formEditContainerValidation = new FormValidator(listValidation, popupEditContainer);
-formEditContainerValidation.enableValidation();
+const validationEditForm = new FormValidator(listValidation, popupEditProfileForm);
+validationEditForm.enableValidation();
 
-const formAddContainerValidation = new FormValidator(listValidation, popupAddFormContainer);
-formAddContainerValidation.enableValidation();
+const validationAddCardForm = new FormValidator(listValidation, popupAddCardForm);
+validationAddCardForm.enableValidation();
 
-const formChangeAvatarContainerValidation = new FormValidator(listValidation, popupChangeAvatarForm);
-formChangeAvatarContainerValidation.enableValidation();
+const validationChangeAvatarForm = new FormValidator(listValidation, popupChangeAvatarForm);
+validationChangeAvatarForm.enableValidation();
 
-const popupImageClass = new PopupWithImage(popupImageElement);
+const popupImageClass = new PopupWithImage(selectors.popupImage);
 
 const popupAddFormClass = new PopupWithForm(
-	popupAddFormElement,
+	selectors.popupAddForm,
 	(inputsValue) => {
 		api.addNewCard(inputsValue)
 			.then(result => {
 				fillCallCreateCard(result);
-				popupAddFormClass.hideMessageSaving();
+				popupAddFormClass.toggleStatusSavingButton(false);
+				popupAddFormClass.close();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе addNewCard: ${error}`);
@@ -83,12 +78,13 @@ const userInfoClass = new UserInfo({
 });
 
 const popupEditFormClass = new PopupWithForm(
-	popupEditProfile,
+	selectors.popupEditProfile,
 	(inputsValue) => {
 		api.editProfileInfo(inputsValue)
 			.then(result => {
 				userInfoClass.setUserInfo(result);
-				popupEditFormClass.hideMessageSaving();
+				popupEditFormClass.toggleStatusSavingButton(false);
+				popupEditFormClass.close();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе editProfileInfo: ${error}`);
@@ -96,15 +92,16 @@ const popupEditFormClass = new PopupWithForm(
 	}
 );
 
-const popupConfirmDeleteClass = new PopupWithConfirmation(popupDeleteCard);
+const popupConfirmDeleteClass = new PopupWithConfirmation(selectors.popupDelete);
 
 const popupChangeAvatarClass = new PopupWithForm(
-	popupChangeAvatar,
+	selectors.popupChange,
 	(inputValue) => {
 		api.changeAvatar(inputValue)
 			.then(result => {
 				userInfoClass.setUserInfo(result);
-				popupChangeAvatarClass.hideMessageSaving();
+				popupChangeAvatarClass.toggleStatusSavingButton(false);
+				popupChangeAvatarClass.close();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе changeAvatar: ${error}`);
@@ -213,7 +210,7 @@ api.getProfileInfo()
 api.getInitialCards()
 	.then(result => {
 		console.log(result);
-		cardList.renderer(result);
+		cardList.renderItems(result);
 	})
 	.catch(error => {
 		console.log(`Ошибка в методе getInitialCards: ${error}`);
