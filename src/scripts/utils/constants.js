@@ -1,10 +1,6 @@
 export const selectors = {
-	// general
-	form: '.popup__container',
 	// popup edit form
 	popupEditProfile: '.popup_type_profile-edit',
-	nameInput: '.popup__item_input_name',
-	descriptionInput: '.popup__item_input_description',
 	// block profile
 	buttonEdit: '.profile__edit-button',
 	buttonAdd: '.profile__add-button',
@@ -19,10 +15,6 @@ export const selectors = {
 	popupChange: '.popup_type_change-avatar',
 };
 
-// popup edit form
-export const popupEditProfileForm = document.querySelector(selectors.popupEditProfile).querySelector(selectors.form);
-export const nameInputElement = popupEditProfileForm.querySelector(selectors.nameInput);
-export const descriptionInputElement = popupEditProfileForm.querySelector(selectors.descriptionInput);
 // block profile
 export const buttonEditToOpenPopupEditProfile = document.querySelector(selectors.buttonEdit);
 export const profileAddButtonForAddForm = document.querySelector(selectors.buttonAdd);

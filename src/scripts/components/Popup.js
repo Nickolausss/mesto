@@ -35,7 +35,7 @@ export default class Popup {
 
 	_handleOverlayClose(event) {
 		if (event.target === event.currentTarget) {
-			this.close(event.currentTarget);
+			this.close();
 		}
 	}
 }

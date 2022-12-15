@@ -4,30 +4,34 @@ export default class Api {
 		this._headers = config.headers;
 	};
 
+	_request(url, options) {
+		return fetch(url, options).then(this._checkResponse);
+	}
+
 	_checkResponse(res) {
 		return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
 	}
 
 	getProfileInfo() {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/users/me`,
 			{
 				headers: this._headers
 			}
-		).then(this._checkResponse)
+		)
 	};
 
 	getInitialCards() {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/cards`,
 			{
 				headers: this._headers
 			}
-		).then(this._checkResponse)
+		)
 	};
 
 	editProfileInfo(inputsValue) {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/users/me`,
 			{
 				method: 'PATCH',
@@ -37,11 +41,11 @@ export default class Api {
 					about: inputsValue.description
 				})
 			}
-		).then(this._checkResponse)
+		)
 	};
 
 	addNewCard(inputsValue) {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/cards`,
 			{
 				method: 'POST',
@@ -51,41 +55,41 @@ export default class Api {
 					link: inputsValue.place
 				})
 			}
-		).then(this._checkResponse)
+		)
 	};
 
 	deleteCard(id) {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/cards/${id}`,
 			{
 				method: 'DELETE',
 				headers: this._headers
 			}
-		).then(this._checkResponse)
+		)
 	};
 
 	addLike(id) {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/cards/${id}/likes`,
 			{
 				method: 'PUT',
 				headers: this._headers
 			}
-		).then(this._checkResponse)
+		)
 	};
 
 	deleteLike(id) {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/cards/${id}/likes`,
 			{
 				method: 'DELETE',
 				headers: this._headers
 			}
-		).then(this._checkResponse)
+		)
 	};
 
 	changeAvatar(inputValue) {
-		return fetch(
+		return this._request(
 			`${this._baseUrl}/users/me/avatar`,
 			{
 				method: 'PATCH',
@@ -94,6 +98,6 @@ export default class Api {
 					avatar: inputValue.avatar
 				})
 			}
-		).then(this._checkResponse)
+		)
 	};
 };

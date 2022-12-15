@@ -6,7 +6,7 @@ export default class UserInfo {
 	}
 
 	getUserInfo() {
-		this._dataInfo = { title: this._userTitle.textContent, subtitle: this._userSubtitle.textContent };
+		this._dataInfo = { name: this._userTitle.textContent, description: this._userSubtitle.textContent };
 		return this._dataInfo;
 	}
 

@@ -12,11 +12,7 @@ import Api from '../scripts/components/Api.js';
 import {
 	listValidation,
 	nameOfForm,
-
 	selectors,
-	// popup edit form
-	nameInputElement,
-	descriptionInputElement,
 	// block profile
 	buttonEditToOpenPopupEditProfile,
 	profileAddButtonForAddForm,
@@ -25,20 +21,18 @@ import {
 
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
 	popupEditFormClass.open();
-	const { title, subtitle } = userInfoClass.getUserInfo();
-	nameInputElement.value = title;
-	descriptionInputElement.value = subtitle;
-	formValidators[nameOfForm.editForm].disableSubmitButton();
+	popupEditFormClass.setInputValues(userInfoClass.getUserInfo());
+	formValidators[nameOfForm.editForm].resetValidation();
 });
 
 profileAddButtonForAddForm.addEventListener('click', () => {
 	popupAddFormClass.open();
-	formValidators[nameOfForm.addFrom].disableSubmitButton();
+	formValidators[nameOfForm.addFrom].resetValidation();
 });
 
 buttonChangeAvatar.addEventListener('click', () => {
 	popupChangeAvatarClass.open();
-	formValidators[nameOfForm.avatarForm].disableSubmitButton();
+	formValidators[nameOfForm.avatarForm].resetValidation();
 })
 
 const formValidators = {};
@@ -72,7 +66,7 @@ const popupAddFormClass = new PopupWithForm(
 				console.log(`Ошибка в методе addNewCard: ${error}`);
 			})
 			.finally(() => {
-				popupAddFormClass.toggleStatusSavingButton(false);
+				popupAddFormClass.renderLoading(false);
 			})
 	}
 );
@@ -95,7 +89,7 @@ const popupEditFormClass = new PopupWithForm(
 				console.log(`Ошибка в методе editProfileInfo: ${error}`);
 			})
 			.finally(() => {
-				popupEditFormClass.toggleStatusSavingButton(false);
+				popupEditFormClass.renderLoading(false);
 			})
 	}
 );
@@ -114,7 +108,7 @@ const popupChangeAvatarClass = new PopupWithForm(
 				console.log(`Ошибка в методе changeAvatar: ${error}`);
 			})
 			.finally(() => {
-				popupChangeAvatarClass.toggleStatusSavingButton(false);
+				popupChangeAvatarClass.renderLoading(false);
 			})
 	}
 );

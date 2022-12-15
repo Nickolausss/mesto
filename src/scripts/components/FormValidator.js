@@ -1,9 +1,9 @@
 export default class FormValidator {
 	constructor(config, form) {
-		this.config = config;
-		this.form = form;
-		this.saveButton = this.form.querySelector(this.config.bottonSave);
-		this.inputList = Array.from(this.form.querySelectorAll(this.config.input));
+		this._config = config;
+		this._form = form;
+		this._saveButton = this._form.querySelector(this._config.bottonSave);
+		this._inputList = Array.from(this._form.querySelectorAll(this._config.input));
 	}
 
 	enableValidation() {
@@ -12,7 +12,7 @@ export default class FormValidator {
 
 	_setInputListener() {
 		this._setSubmitButtonState();
-		this.inputList.forEach(input => {
+		this._inputList.forEach(input => {
 			input.addEventListener('input', event => {
 				this._handleInputValidity(event);
 				this._setSubmitButtonState();
@@ -33,36 +33,44 @@ export default class FormValidator {
 	_showInputError(input, errorMassege) {
 		const span = document.querySelector(`.${input.id}-error`);
 
-		input.classList.add(this.config.inputError);
-		span.classList.add(this.config.spanError);
+		input.classList.add(this._config.inputError);
+		span.classList.add(this._config.spanError);
 		span.textContent = errorMassege;
 	}
 
 	_hideInputError(input) {
 		const span = document.querySelector(`.${input.id}-error`);
 
-		input.classList.remove(this.config.inputError);
-		span.classList.remove(this.config.spanError);
+		input.classList.remove(this._config.inputError);
+		span.classList.remove(this._config.spanError);
 		span.textContent = '';
 	}
 
 	_setSubmitButtonState() {
-		const isValid = this.form.checkValidity();
+		const isValid = this._form.checkValidity();
 
 		if (!isValid) {
-			this.disableSubmitButton();
+			this._disableSubmitButton();
 		} else {
-			this.enableSubmitButton();
+			this._enableSubmitButton();
 		}
 	}
 
-	enableSubmitButton() {
-		this.saveButton.classList.remove(this.config.bottonSaveInactive);
-		this.saveButton.removeAttribute('disabled');
+	resetValidation() {
+		this._setSubmitButtonState();
+
+		this._inputList.forEach(input => {
+			this._hideInputError(input);
+		})
 	}
 
-	disableSubmitButton() {
-		this.saveButton.classList.add(this.config.bottonSaveInactive);
-		this.saveButton.setAttribute('disabled', true);
+	_enableSubmitButton() {
+		this._saveButton.classList.remove(this._config.bottonSaveInactive);
+		this._saveButton.removeAttribute('disabled');
+	}
+
+	_disableSubmitButton() {
+		this._saveButton.classList.add(this._config.bottonSaveInactive);
+		this._saveButton.setAttribute('disabled', true);
 	}
 }
