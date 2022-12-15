@@ -4,13 +4,17 @@ export default class Api {
 		this._headers = config.headers;
 	};
 
+	_checkResponse(res) {
+		return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+	}
+
 	getProfileInfo() {
 		return fetch(
 			`${this._baseUrl}/users/me`,
 			{
 				headers: this._headers
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 
 	getInitialCards() {
@@ -19,7 +23,7 @@ export default class Api {
 			{
 				headers: this._headers
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 
 	editProfileInfo(inputsValue) {
@@ -33,7 +37,7 @@ export default class Api {
 					about: inputsValue.description
 				})
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 
 	addNewCard(inputsValue) {
@@ -47,7 +51,7 @@ export default class Api {
 					link: inputsValue.place
 				})
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 
 	deleteCard(id) {
@@ -57,7 +61,7 @@ export default class Api {
 				method: 'DELETE',
 				headers: this._headers
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 
 	addLike(id) {
@@ -67,7 +71,7 @@ export default class Api {
 				method: 'PUT',
 				headers: this._headers
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 
 	deleteLike(id) {
@@ -77,7 +81,7 @@ export default class Api {
 				method: 'DELETE',
 				headers: this._headers
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 
 	changeAvatar(inputValue) {
@@ -90,6 +94,6 @@ export default class Api {
 					avatar: inputValue.avatar
 				})
 			}
-		).then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
+		).then(this._checkResponse)
 	};
 };

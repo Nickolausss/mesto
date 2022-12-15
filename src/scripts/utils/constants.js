@@ -27,15 +27,18 @@ export const descriptionInputElement = popupEditProfileForm.querySelector(select
 export const buttonEditToOpenPopupEditProfile = document.querySelector(selectors.buttonEdit);
 export const profileAddButtonForAddForm = document.querySelector(selectors.buttonAdd);
 export const buttonChangeAvatar = document.querySelector(selectors.buttonChange);
-// popup add form
-export const popupAddCardForm = document.querySelector(selectors.popupAddForm).querySelector(selectors.form);
-// popup change avatar
-export const popupChangeAvatarForm = document.querySelector(selectors.popupChange).querySelector(selectors.form);
 
 export const listValidation = {
+	form: '.popup__container',
 	input: '.popup__item',
 	inputError: 'popup__item_type_error',
 	spanError: 'popup__item-error_active',
 	bottonSave: '.popup__save-button',
 	bottonSaveInactive: 'popup__save-button_inactive'
 };
+
+export const nameOfForm = {
+	editForm: 'popup-edit-form',
+	addFrom: 'popup-add-form',
+	avatarForm: 'popup-change-avatar-form'
+}

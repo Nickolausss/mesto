@@ -11,48 +11,52 @@ import Api from '../scripts/components/Api.js';
 
 import {
 	listValidation,
+	nameOfForm,
 
 	selectors,
 	// popup edit form
-	popupEditProfileForm,
 	nameInputElement,
 	descriptionInputElement,
 	// block profile
 	buttonEditToOpenPopupEditProfile,
 	profileAddButtonForAddForm,
 	buttonChangeAvatar,
-	// popup add form
-	popupAddCardForm,
-	// popup change avatar
-	popupChangeAvatarForm,
 } from '../scripts/utils/constants.js';
 
 buttonEditToOpenPopupEditProfile.addEventListener('click', () => {
 	popupEditFormClass.open();
-	nameInputElement.value = userInfoClass.getUserInfo().title;
-	descriptionInputElement.value = userInfoClass.getUserInfo().subtitle;
-	validationEditForm.enableSubmitButton();
+	const { title, subtitle } = userInfoClass.getUserInfo();
+	nameInputElement.value = title;
+	descriptionInputElement.value = subtitle;
+	formValidators[nameOfForm.editForm].disableSubmitButton();
 });
 
 profileAddButtonForAddForm.addEventListener('click', () => {
 	popupAddFormClass.open();
-	validationAddCardForm.disableSubmitButton();
+	formValidators[nameOfForm.addFrom].disableSubmitButton();
 });
 
 buttonChangeAvatar.addEventListener('click', () => {
 	popupChangeAvatarClass.open();
-	validationChangeAvatarForm.disableSubmitButton();
+	formValidators[nameOfForm.avatarForm].disableSubmitButton();
 })
 
+const formValidators = {};
 
-const validationEditForm = new FormValidator(listValidation, popupEditProfileForm);
-validationEditForm.enableValidation();
+const enableValidation = (selectors) => {
+	const formList = Array.from(document.querySelectorAll(selectors.form));
+	formList.forEach(form => {
+		const validator = new FormValidator(selectors, form);
+		const formName = form.getAttribute('name');
 
-const validationAddCardForm = new FormValidator(listValidation, popupAddCardForm);
-validationAddCardForm.enableValidation();
+		formValidators[formName] = validator;
 
-const validationChangeAvatarForm = new FormValidator(listValidation, popupChangeAvatarForm);
-validationChangeAvatarForm.enableValidation();
+		validator.enableValidation();
+	})
+}
+
+enableValidation(listValidation);
+
 
 const popupImageClass = new PopupWithImage(selectors.popupImage);
 
@@ -62,11 +66,13 @@ const popupAddFormClass = new PopupWithForm(
 		api.addNewCard(inputsValue)
 			.then(result => {
 				fillCallCreateCard(result);
-				popupAddFormClass.toggleStatusSavingButton(false);
 				popupAddFormClass.close();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе addNewCard: ${error}`);
+			})
+			.finally(() => {
+				popupAddFormClass.toggleStatusSavingButton(false);
 			})
 	}
 );
@@ -83,11 +89,13 @@ const popupEditFormClass = new PopupWithForm(
 		api.editProfileInfo(inputsValue)
 			.then(result => {
 				userInfoClass.setUserInfo(result);
-				popupEditFormClass.toggleStatusSavingButton(false);
 				popupEditFormClass.close();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе editProfileInfo: ${error}`);
+			})
+			.finally(() => {
+				popupEditFormClass.toggleStatusSavingButton(false);
 			})
 	}
 );
@@ -100,11 +108,13 @@ const popupChangeAvatarClass = new PopupWithForm(
 		api.changeAvatar(inputValue)
 			.then(result => {
 				userInfoClass.setUserInfo(result);
-				popupChangeAvatarClass.toggleStatusSavingButton(false);
 				popupChangeAvatarClass.close();
 			})
 			.catch(error => {
 				console.log(`Ошибка в методе changeAvatar: ${error}`);
+			})
+			.finally(() => {
+				popupChangeAvatarClass.toggleStatusSavingButton(false);
 			})
 	}
 );
@@ -197,21 +207,14 @@ const api = new Api({
 
 let userId;
 
-api.getProfileInfo()
-	.then(result => {
-		userInfoClass.setUserInfo(result);
+Promise.all([api.getProfileInfo(), api.getInitialCards()])
+	.then(([userData, cards]) => {
+		userInfoClass.setUserInfo(userData);
+		userId = userData._id;
 
-		userId = result._id;
+		console.log(cards);
+		cardList.renderItems(cards);
 	})
 	.catch(error => {
-		console.log(`Ошибка в методе getProfileInfo: ${error}`);
-	})
-
-api.getInitialCards()
-	.then(result => {
-		console.log(result);
-		cardList.renderItems(result);
-	})
-	.catch(error => {
-		console.log(`Ошибка в методе getInitialCards: ${error}`);
+		console.log(`Ошибка в Promose.all: getProfileInfo и getInitialCards: ${error}`);
 	})
