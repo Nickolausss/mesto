@@ -2,6 +2,9 @@ export const selectors = {
 	// popup edit form
 	popupEditProfile: '.popup_type_profile-edit',
 	// block profile
+	title: '.profile__title',
+	subtitle: '.profile__subtitle',
+	avatar: '.profile__avatar',
 	buttonEdit: '.profile__edit-button',
 	buttonAdd: '.profile__add-button',
 	buttonChange: '.profile__button-change-avatar',

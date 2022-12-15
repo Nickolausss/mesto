@@ -72,9 +72,9 @@ const popupAddFormClass = new PopupWithForm(
 );
 
 const userInfoClass = new UserInfo({
-	title: '.profile__title',
-	subtitle: '.profile__subtitle',
-	avatar: '.profile__avatar'
+	title: selectors.title,
+	subtitle: selectors.subtitle,
+	avatar: selectors.avatar
 });
 
 const popupEditFormClass = new PopupWithForm(
